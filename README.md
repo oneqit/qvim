@@ -7,10 +7,25 @@
 git clone https://github.com/oneqit/qvim.git ~/.config/nvim
 ```
 ## Shortcuts
+### vim
 ```
-Ctrl+E 탐색기 토글
-Ctrl+<Arrow> 패널 이동
-za 접기
-zM 전체 접기
-zR 그룹 펼치기
+gg First
+G Last
+Ctrl+U PgUp
+Ctrl+B PgUp
+Ctrl+D PgDn
+Ctrl+F PgDn
+0 Home
+^ Home (non-whiespace)
+$ End
+v Visual Mode
+V Visual Line Mode
+```
+### neovim + plugins
+```
+Ctrl+E :Neotree toggle
+Ctrl+<Arrow> pane navigation
+za fold
+zM fold all
+zR unfold all
 ```

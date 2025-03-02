@@ -7,6 +7,7 @@ return {
             local builtin = require("telescope.builtin")
             mapKey('<leader>ff', builtin.find_files)
             mapKey('<leader>fg', builtin.live_grep)
+            mapKey('<leader>fo', builtin.oldfiles)
             mapKey('<leader>fb', builtin.buffers)
             mapKey('<leader>fh', builtin.help_tags)
         end,
