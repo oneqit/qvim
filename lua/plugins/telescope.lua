@@ -6,11 +6,11 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             local builtin = require("telescope.builtin")
-            map("n", "<leader>ff", builtin.find_files)
-            map("n", "<leader>fg", builtin.live_grep)
-            map("n", "<leader>fo", builtin.oldfiles)
-            map("n", "<leader>fb", builtin.buffers)
-            map("n", "<leader>fh", builtin.help_tags)
+            map("n", "<leader>ff", builtin.find_files, { desc = "Find files" } )
+            map("n", "<leader>fg", builtin.live_grep, { desc = "Live grep" } )
+            map("n", "<leader>fo", builtin.oldfiles, { desc = "Old files" } )
+            map("n", "<leader>fb", builtin.buffers, { desc = "Find in buffers" } )
+            map("n", "<leader>fh", builtin.help_tags, { desc = "Find helps" } )
         end,
     },
     {

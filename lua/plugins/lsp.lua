@@ -1,4 +1,4 @@
-local keyMapper = require("utils.keyMapper").mapKey
+local map = vim.keymap.set
 
 return {
     {
@@ -11,7 +11,7 @@ return {
         "williamboman/mason-lspconfig.nvim",
         config = function()
             require("mason-lspconfig").setup({
-                ensure_installed = { "lua_ls", "stylua", "ruff", "pyright" },
+                ensure_installed = { "lua_ls", "ruff", "pyright" },
                 automatic_installation = true,
             })
         end,
@@ -21,7 +21,6 @@ return {
         config = function()
             local lspconfig = require("lspconfig")
             lspconfig.lua_ls.setup({})
-            lspconfig.stylua.setup({})
             lspconfig.ruff.setup({
               init_options = {
                 settings = {
@@ -55,10 +54,10 @@ return {
               },
             })
 
-            keyMapper("K", vim.lsp.buf.hover)
-            keyMapper("gd", vim.lsp.buf.definition)
-            keyMapper("gD", vim.lsp.buf.declaration)
-            keyMapper("<leader>ca", vim.lsp.buf.code_action)
+            map("n", "K", vim.lsp.buf.hover)
+            map("n", "gd", vim.lsp.buf.definition)
+            map("n", "gD", vim.lsp.buf.declaration)
+            map("n", "<leader>ca", vim.lsp.buf.code_action)
         end,
     }
 }
