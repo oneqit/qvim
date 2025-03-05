@@ -9,6 +9,15 @@ return {
         { "<leader>f", group = "file/find" },
         { "<leader>g", group = "git" },
         { "<leader>q", group = "quit" },
+        { "<leader>s", group = "search" },
+        { "<leader>u", group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
+        {
+          "<leader>b",
+          group = "buffer",
+          expand = function()
+            return require("which-key.extras").expand.buf()
+          end,
+        },
       }
     },
   },

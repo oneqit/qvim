@@ -16,6 +16,9 @@ return {
     picker = {
       enabled = true,
         sources = {
+          files = {
+            hidden = true,
+          },
           explorer = {
             hidden = true,
           },

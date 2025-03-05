@@ -5,9 +5,9 @@ map("n", "<C-s>", "<cmd>w<cr>", { desc = "Save" })
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 
 map({ "i", "n", "s" }, "<esc>", function()
-  vim.cmd("noh")
-  -- LazyVim.cmp.actions.snippet_stop()
-  return "<esc>"
+	vim.cmd("noh")
+	-- LazyVim.cmp.actions.snippet_stop()
+	return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
 -- Pane
@@ -24,4 +24,3 @@ map("n", "<C-S-l>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Wid
 -- Indent
 map("v", "<", "<gv")
 map("v", ">", ">gv")
-

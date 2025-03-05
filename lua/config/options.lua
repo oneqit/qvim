@@ -28,4 +28,3 @@ opt.termguicolors = true
 -- etc
 opt.encoding = "UTF-8"
 opt.mouse = "a"
-
