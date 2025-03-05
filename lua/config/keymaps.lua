@@ -33,7 +33,17 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- Terminal
-map("n", "<leader>ft", function() Snacks.terminal() end, { desc = "Terminal" })
-map("n", "<leader>fT", function() Snacks.terminal(nil, { cwd = vim.fn.getcwd() } ) end, { desc = "Terminal (cwd)" })
+map("n", "<leader>ft", function()
+  Snacks.terminal()
+end, { desc = "Terminal" })
+map("n", "<leader>fT", function()
+  Snacks.terminal(nil, { cwd = vim.fn.getcwd() })
+end, { desc = "Terminal (cwd)" })
 map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
+-- Buffer
+map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
+map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
+map("n", "<leader>bo", function()
+  Snacks.bufdelete.other()
+end, { desc = "Delete Other Buffers" })

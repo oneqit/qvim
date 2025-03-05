@@ -12,6 +12,7 @@ return {
       map("n", "<leader>fo", builtin.oldfiles, { desc = "Old files" })
       map("n", "<leader>fb", builtin.buffers, { desc = "Find in buffers" })
       map("n", "<leader>fh", builtin.help_tags, { desc = "Find helps" })
+      map("n", "<leader>fR", builtin.lsp_references, { desc = "Find references" })
     end,
   },
   {
