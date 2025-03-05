@@ -1,18 +1,21 @@
-local mapKey = require("utils.keyMapper").mapKey
+local map = vim.keymap.set
 
 -- General
-mapKey('<C-q>', ':q<cr>')
+map("n", "<C-s>", "<cmd>w<cr>", { desc = "Save" })
+map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 
--- Neotree toggle
-mapKey('<leader>e', ':Neotree toggle<cr>')
+-- Pane
+map("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
+map("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
+map("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
+map("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
 
--- pane navigation
-mapKey('<C-Left>', '<C-w>h')
-mapKey('<C-Down>', '<C-w>j')
-mapKey('<C-Up>', '<C-w>k')
-mapKey('<C-Right>', '<C-w>l')
+map("n", "<C-S-k>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
+map("n", "<C-S-j>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
+map("n", "<C-S-h>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
+map("n", "<C-S-l>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 
--- indent
-mapKey('<', '<gv', 'v')
-mapKey('>', '>gv', 'v')
+-- Indent
+map("v", "<", "<gv")
+map("v", ">", ">gv")
 

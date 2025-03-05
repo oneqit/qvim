@@ -1,3 +1,9 @@
+local g = vim.g
+
+-- leader key
+g.mapleader = " "
+g.maplocalleader = ","
+
 local opt = vim.opt
 
 -- tab/indent
@@ -6,7 +12,6 @@ opt.shiftwidth = 4
 opt.softtabstop = 4
 opt.expandtab = true
 opt.smartindent = true
-opt.wrap = false
 
 -- search
 opt.incsearch = true
@@ -14,12 +19,13 @@ opt.ignorecase = true
 opt.smartcase = true
 
 -- visual
+opt.wrap = false
 opt.number = true
 opt.signcolumn = "yes"
--- opt.termguicolors = true
+opt.scrolloff = 4
+opt.termguicolors = true
 
 -- etc
 opt.encoding = "UTF-8"
-opt.scrolloff = 4
-opt.mouse:append("a")
+opt.mouse = "a"
 
