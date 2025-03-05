@@ -19,7 +19,6 @@ require("config.options")
 require("config.autocmds")
 require("config.keymaps")
 
-
 local plugins = "plugins"
 local opts = {}
 
