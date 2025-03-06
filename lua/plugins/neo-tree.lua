@@ -1,3 +1,7 @@
+if true then
+  return {}
+end
+
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
@@ -11,6 +15,21 @@ return {
     filesystem = {
       filtered_items = {
         visible = true,
+      },
+    },
+    window = {
+      mappings = {
+        ["l"] = "open",
+        ["h"] = "close_node",
+        ["<space>"] = "none",
+        ["Y"] = {
+          function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+            vim.fn.setreg("+", path, "c")
+          end,
+          desc = "Copy Path to Clipboard",
+        },
       },
     },
   },
