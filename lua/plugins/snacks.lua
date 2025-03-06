@@ -21,7 +21,6 @@ return {
         { section = "startup" },
       },
     },
-
     explorer = { enabled = true },
     indent = { enabled = true },
     input = { enabled = true },
@@ -115,7 +114,7 @@ return {
     statuscolumn = { enabled = true },
     words = { enabled = true },
     styles = {
-      notification = {
+      notification_history = {
         wo = { wrap = true },
       },
     },
