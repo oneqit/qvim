@@ -5,6 +5,7 @@ return {
     spec = {
       {
         mode = { "n", "v" },
+        { "g", group = "goto" },
         { "<leader>c", group = "code" },
         { "<leader>f", group = "file/find" },
         { "<leader>g", group = "git" },

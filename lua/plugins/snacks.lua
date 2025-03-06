@@ -37,6 +37,72 @@ return {
         },
         explorer = {
           hidden = true,
+          actions = {
+            copy_file_path = {
+              action = function(_, item)
+                if not item then
+                  return
+                end
+
+                local vals = {
+                  ["PATH"] = item.file,
+                  ["PATH (CWD)"] = vim.fn.fnamemodify(item.file, ":."),
+                  ["PATH (HOME)"] = vim.fn.fnamemodify(item.file, ":~"),
+                  ["FILENAME"] = vim.fn.fnamemodify(item.file, ":t"),
+                  ["BASENAME"] = vim.fn.fnamemodify(item.file, ":t:r"),
+                  ["EXTENSION"] = vim.fn.fnamemodify(item.file, ":t:e"),
+                  -- ["URI"] = vim.uri_from_fname(item.file),
+                }
+
+                local options = vim.tbl_filter(function(val)
+                  return vals[val] ~= ""
+                end, vim.tbl_keys(vals))
+                if vim.tbl_isempty(options) then
+                  vim.notify("No values to copy", vim.log.levels.WARN)
+                  return
+                end
+
+                local order = {
+                  "PATH",
+                  "PATH (CWD)",
+                  "PATH (HOME)",
+                  "FILENAME",
+                  "BASENAME",
+                  "EXTENSION",
+                  "URI"
+                }
+
+                local order_map = {}
+                for i, it in ipairs(order) do
+                  order_map[it] = i
+                end
+
+                table.sort(options, function(a, b)
+                  return (order_map[a] or 100) < (order_map[b] or 100)
+                end)
+
+                vim.ui.select(options, {
+                  prompt = "Choose to copy to clipboard:",
+                  format_item = function(list_item)
+                    return ("%s: %s"):format(list_item, vals[list_item])
+                  end,
+                }, function(choice)
+                  local result = vals[choice]
+                  if result then
+                    vim.fn.setreg("+", result)
+                    Snacks.notify.info("Yanked `" .. result .. "`")
+                  end
+                end)
+              end,
+            },
+          },
+          win = {
+            list = {
+              keys = {
+                ["Y"] = "copy_file_path",
+              },
+            },
+          },
         },
       },
       layout = {
@@ -106,13 +172,13 @@ return {
     { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
     { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
     -- LSP
-    { "gd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
-    { "gD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
-    { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
-    { "gI", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
-    { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
-    { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
-    { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
+    -- { "gd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
+    -- { "gD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
+    -- { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
+    -- { "gI", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
+    -- { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
+    -- { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+    -- { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
     -- Other
     -- { "<leader>td", function() Snacks.dashboard() end, desc = "Open dashboard" },
     { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
@@ -121,7 +187,7 @@ return {
     { "<leader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
     { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Notification History" },
     { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
-    { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
+    -- { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
     { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
     { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
     { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },

@@ -31,6 +31,7 @@ git clone https://github.com/oneqit/qvim.git ~/.config/nvim
 |--------|------|
 | `hjkl` | navigate |
 | `i` | [i]nsert filename to find |
+| `Y` | cop[Y] file path |
 | `Ctrl + v` | open a file by splitting it [v]ertically |
 | `Ctrl + h` | open a file by splitting it [h]orizontally |
 
@@ -52,6 +53,10 @@ git clone https://github.com/oneqit/qvim.git ~/.config/nvim
 ### Code
 | keymap | description |
 |--------|------|
+| `g` | (Group) [g]oto |
+| `gd` | [g]oto [d]efinition |
+| `gD` | [g]oto [d]eclaration |
+| `Ctrl + t` | go back |
 | `<leader>c` | (Group) related to [c]ode |
 | `<leader>cf` | [c]ode [f]ormatting |
 | `<leader>ca` | [c]ode [a]ction |
