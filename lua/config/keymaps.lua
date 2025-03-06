@@ -32,12 +32,24 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- Terminal
-map("n", "<leader>ft", function()
-  Snacks.terminal()
-end, { desc = "Terminal" })
-map("n", "<leader>fT", function()
-  Snacks.terminal(nil, { cwd = vim.fn.getcwd() })
-end, { desc = "Terminal (cwd)" })
+map("n", "<leader>tb", function()
+  Snacks.terminal(nil, { env = { NVIM_TERMINAL_BOTTOM = "true" }, win = { position = "bottom" } })
+end, { desc = "Terminal (Bottom)" })
+map("n", "<leader>tf", function()
+  Snacks.terminal(nil, { env = { NVIM_TERMINAL_FLOAT = "true" }, win = { position = "float", border = "rounded" } })
+end, { desc = "Terminal (Float)" })
+map("n", "<leader>tB", function()
+  Snacks.terminal(
+    nil,
+    { env = { NVIM_TERMINAL_BOTTOM = "true" }, win = { position = "bottom" }, cwd = vim.fn.getcwd() }
+  )
+end, { desc = "Terminal (Bottom, cwd)" })
+map("n", "<leader>tF", function()
+  Snacks.terminal(
+    nil,
+    { env = { NVIM_TERMINAL_FLOAT = "true" }, win = { position = "float", border = "rounded" }, cwd = vim.fn.getcwd() }
+  )
+end, { desc = "Terminal (Float, cwd)" })
 map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
 -- Buffer
