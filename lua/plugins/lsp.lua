@@ -21,7 +21,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "pyright" },
+        ensure_installed = { "lua_ls", "pyright", "ruff" },
         automatic_installation = true,
       })
     end,
@@ -31,12 +31,19 @@ return {
     config = function()
       local lspconfig = require("lspconfig")
       lspconfig.lua_ls.setup({})
+      lspconfig.ruff.setup({
+        init_options = {
+          settings = {
+            lineLength = 100,
+          },
+        },
+      })
       -- lspconfig.pylsp.setup({
       --   settings = {
       --     pylsp = {
       --       plugins = {
       --         pycodestyle = {
-      --           maxLineLength = 88
+      --           maxLineLength = 100
       --         }
       --       }
       --     }
