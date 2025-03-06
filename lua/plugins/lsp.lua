@@ -64,8 +64,6 @@ return {
       })
 
       map("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
-      -- map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
-      -- map("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
       map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
     end,
   },
