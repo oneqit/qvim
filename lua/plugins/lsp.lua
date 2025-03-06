@@ -141,11 +141,13 @@ return {
         pyright = {
           -- Config options: https://github.com/microsoft/pyright/blob/main/docs/settings.md
           settings = {
+            pyright = {
+              disableOrganizeImports = true, -- Using Ruff's import organizer
+            },
             python = {
               pythonPath = python_path,
-              disableOrganizeImports = true, -- Using Ruff's import organizer
               analysis = {
-                -- ignore = { '*' },              -- Ignore all files for analysis to exclusively use Ruff for linting
+                ignore = { '*' },              -- Ignore all files for analysis to exclusively use Ruff for linting
                 typeCheckingMode = "basic",
                 autoImportCompletions = true, -- whether pyright offers auto-import completions
               },
