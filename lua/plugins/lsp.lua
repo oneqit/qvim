@@ -63,7 +63,14 @@ return {
         },
       })
 
-      map("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+      })
+      map("n", "K", function()
+        -- call twice for focusing the floating window
+        vim.lsp.buf.hover()
+        vim.lsp.buf.hover()
+      end, { desc = "Hover" })
       map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
     end,
   },

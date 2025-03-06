@@ -4,8 +4,8 @@ local map = vim.keymap.set
 map("n", "<C-s>", "<cmd>w<cr>", { desc = "Save" })
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 
-map({ "i", "n", "s" }, "<esc>", function()
-  vim.cmd("noh")
+map({ "n", "i", "s" }, "<esc>", function()
+  vim.cmd("nohlsearch")
   return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
@@ -46,3 +46,10 @@ map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "<leader>bo", function()
   Snacks.bufdelete.other()
 end, { desc = "Delete Other Buffers" })
+
+-- Diagnostics
+map("n", "<leader>K", function()
+  -- call twice for focusing the floating window
+  vim.diagnostic.open_float({ border = "rounded" })
+  vim.diagnostic.open_float({ border = "rounded" })
+end, { desc = "Popup Diagnostics" })
