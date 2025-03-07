@@ -2,6 +2,7 @@ local map = vim.keymap.set
 
 -- General
 map("n", "<C-s>", "<cmd>w<cr>", { desc = "Save" })
+map("i", "<C-s>", "<cmd>w<cr><esc>", { desc = "Save" })
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 
 map({ "n", "i", "s" }, "<esc>", function()

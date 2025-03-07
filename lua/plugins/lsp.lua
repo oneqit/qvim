@@ -7,6 +7,9 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
+      "nvim-telescope/telescope.nvim",
+      "hrsh7th/nvim-cmp",
+      "hrsh7th/cmp-nvim-lsp",
       {
         "j-hui/fidget.nvim",
         tag = "v1.4.0",
@@ -161,19 +164,8 @@ return {
             },
           },
         },
-        -- jsonls = {},
-        -- sqlls = {},
-        -- terraformls = {},
-        -- yamlls = {},
-        -- bashls = {},
-        -- dockerls = {},
-        -- docker_compose_language_service = {},
-        -- tailwindcss = {},
-        -- graphql = {},
-        -- html = { filetypes = { 'html', 'twig', 'hbs' } },
-        -- cssls = {},
-        -- ltex = {},
-        -- texlab = {},
+        jsonls = {},
+        sqlls = {},
       }
 
       require("mason").setup()

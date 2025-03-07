@@ -1,5 +1,3 @@
-local map = vim.keymap.set
-
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -7,7 +5,7 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local builtin = require("telescope.builtin")
-      map("n", "<leader>fh", builtin.help_tags, { desc = "Find helps" })
+      vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Find helps" })
     end,
   },
   -- {
