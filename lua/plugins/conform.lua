@@ -10,7 +10,7 @@ return {
         require("conform").format({ async = true })
       end,
       mode = "",
-      desc = "Format buffer",
+      desc = "Conform: [c]ode: [f]ormat",
     },
   },
   ---@module "conform"
@@ -19,6 +19,7 @@ return {
     -- Define your formatters
     formatters_by_ft = {
       lua = { "stylua" },
+      python = { "isort" },
     },
     linters_by_ft = {
     },

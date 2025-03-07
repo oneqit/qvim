@@ -9,12 +9,6 @@ return {
         "coc-lua",
         "coc-pyright",
       }
-      vim.g.coc_list_window = {
-        border = "single",
-        height = 15,
-        col = 0,
-        row = 1, -- Adjust this to position it above
-      }
     end,
   },
 }

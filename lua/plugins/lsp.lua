@@ -125,22 +125,32 @@ return {
             },
           },
         },
-        -- pylsp = {
-        --   settings = {
-        --     pylsp = {
-        --       plugins = {
-        --         pyflakes = { enabled = false },
-        --         pycodestyle = { enabled = false, maxLineLength = 100 },
-        --         autopep8 = { enabled = false },
-        --         yapf = { enabled = false },
-        --         mccabe = { enabled = false },
-        --         pylsp_mypy = { enabled = false },
-        --         pylsp_black = { enabled = false },
-        --         pylsp_isort = { enabled = false },
-        --       },
-        --     },
-        --   },
-        -- },
+        pylsp = {
+          settings = {
+            pylsp = {
+              plugins = {
+                -- jedi_completion = { enabled = true, fuzzy = true },
+                -- jedi_definition = { enabled = true },
+                -- jedi_hover = { enabled = true },
+                -- jedi_references = { enabled = true },
+                -- jedi_signature_help = { enabled = true },
+                -- jedi_symbols = { enabled = true },
+                -- autopep8 = { enabled = true },
+                -- mccabe = { enabled = true },
+                -- flake8 = { enabled = true },
+                pycodestyle = { enabled = true, maxLineLength = 100 },
+                -- pyflakes = { enabled = true },
+                -- pylint = { enabled = true },
+                rope_autoimport = {
+                  enabled = true,
+                  completions = { enabled = true },
+                  code_actions = { enabled = true },
+                },
+                -- yapf = { enabled = true },
+              },
+            },
+          },
+        },
         pyright = {
           -- Config options: https://github.com/microsoft/pyright/blob/main/docs/settings.md
           settings = {
@@ -150,7 +160,7 @@ return {
             python = {
               pythonPath = python_path,
               analysis = {
-                ignore = { '*' },              -- Ignore all files for analysis to exclusively use Ruff for linting
+                -- ignore = { '*' },              -- Ignore all files for analysis to exclusively use Ruff for linting
                 typeCheckingMode = "basic",
                 autoImportCompletions = true, -- whether pyright offers auto-import completions
               },
