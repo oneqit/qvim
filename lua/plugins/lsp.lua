@@ -181,7 +181,11 @@ return {
                 autopep8 = { enabled = false },
                 mccabe = { enabled = false },
                 flake8 = { enabled = false },
-                pycodestyle = { enabled = true, maxLineLength = 100 },
+                pycodestyle = {
+                  enabled = true,
+                  ignore = { "W391" },
+                  maxLineLength = 100,
+                },
                 pyflakes = { enabled = false },
                 pylint = { enabled = false },
                 rope_autoimport = {
