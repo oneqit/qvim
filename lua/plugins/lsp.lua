@@ -212,13 +212,13 @@ return {
           },
         },
         -- for organizing imports
-        ruff = {
-          init_options = {
-            settings = {
-              lineLength = 100,
-            },
-          },
-        },
+        -- ruff = {
+        --   init_options = {
+        --     settings = {
+        --       lineLength = 100,
+        --     },
+        --   },
+        -- },
         jsonls = {},
         sqlls = {},
       }

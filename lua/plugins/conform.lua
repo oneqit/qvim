@@ -4,7 +4,6 @@ return {
   cmd = { "ConformInfo" },
   keys = {
     {
-      -- Customize or remove this keymap to your liking
       "<leader>cf",
       function()
         require("conform").format({ async = true })
@@ -16,21 +15,19 @@ return {
   ---@module "conform"
   ---@type conform.setupOpts
   opts = {
-    -- Define your formatters
     formatters_by_ft = {
       lua = { "stylua" },
-      python = { "black" },
+      python = { "isort", "black" },
     },
-    linters_by_ft = {
-    },
-    -- Set default options
+    linters_by_ft = {},
     default_format_opts = {
       lsp_format = "fallback",
     },
-    -- Set up format-on-save
     -- format_on_save = { timeout_ms = 500 },
-    -- Customize formatters
     formatters = {
+      isort = {
+        prepend_args = { "--line-length", "100" },
+      },
       black = {
         prepend_args = { "--line-length", "100" },
       },

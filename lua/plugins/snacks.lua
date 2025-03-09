@@ -186,12 +186,35 @@ return {
     { "<leader>S",  function() Snacks.scratch.select() end, desc = "Snacks: Select Scratch Buffer" },
     { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Snacks: Notification History" },
     { "<leader>bd", function() Snacks.bufdelete() end, desc = "Snacks: Delete Buffer" },
+    { "<leader>bo", function() Snacks.bufdelete.other() end, desc = "Delete Other Buffers" },
     -- { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Snacks: Rename File" },
     { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Snacks: Git Browse", mode = { "n", "v" } },
     { "<leader>gg", function() Snacks.lazygit() end, desc = "Snacks: Lazygit" },
     { "<leader>un", function() Snacks.notifier.hide() end, desc = "Snacks: Dismiss All Notifications" },
-    { "<c-/>",      function() Snacks.terminal() end, desc = "Snacks: Toggle Terminal" },
-    { "<c-_>",      function() Snacks.terminal() end, desc = "Snacks: which_key_ignore" },
+    { "<leader>tf", function()
+      Snacks.terminal(
+        nil, {
+          env = { NVIM_TERMINAL_FLOAT = "true" },
+          win = { position = "float", border = "rounded" }
+        }
+      )
+      end, desc = "Terminal (Float)" },
+    { "<C-t>", function()
+      Snacks.terminal(
+        nil, {
+          env = { NVIM_TERMINAL_FLOAT = "true" },
+          win = { position = "float", border = "rounded" }
+        }
+      )
+      end, desc = "Terminal (Float)" },
+    { "<leader>tF", function()
+      Snacks.terminal(
+        nil, {
+          env = { NVIM_TERMINAL_FLOAT = "true" },
+          win = { position = "float", border = "rounded" }, cwd = vim.fn.getcwd()
+        }
+      )
+      end, desc = "Terminal (Float, cwd)" },
     { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Snacks: Next Reference", mode = { "n", "t" } },
     { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Snacks: Prev Reference", mode = { "n", "t" } },
     {
