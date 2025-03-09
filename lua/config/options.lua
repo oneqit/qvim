@@ -2,7 +2,7 @@ local g = vim.g
 
 -- leader key
 g.mapleader = " "
-g.maplocalleader = ","
+g.maplocalleader = " "
 
 local opt = vim.opt
 
@@ -28,3 +28,4 @@ opt.termguicolors = true
 -- etc
 opt.encoding = "UTF-8"
 opt.mouse = "a"
+opt.updatetime = 300

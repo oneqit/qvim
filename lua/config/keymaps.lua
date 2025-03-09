@@ -2,11 +2,12 @@ local map = vim.keymap.set
 
 -- General
 map("n", "<C-s>", "<cmd>w<cr>", { desc = "Save" })
+map("i", "<C-s>", "<cmd>w<cr><esc>", { desc = "Save" })
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
+map("n", "<leader>qQ", "<cmd>q!<cr>", { desc = "Quit Without Saving" })
 
-map({ "i", "n", "s" }, "<esc>", function()
-  vim.cmd("noh")
-  -- LazyVim.cmp.actions.snippet_stop()
+map({ "n", "i", "s" }, "<esc>", function()
+  vim.cmd("nohlsearch")
   return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
@@ -33,13 +34,26 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- Terminal
-map("n", "<leader>ft", function()
-  Snacks.terminal()
-end, { desc = "Terminal" })
-map("n", "<leader>fT", function()
-  Snacks.terminal(nil, { cwd = vim.fn.getcwd() })
-end, { desc = "Terminal (cwd)" })
-map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+map("n", "<leader>tb", function()
+  Snacks.terminal(nil, { env = { NVIM_TERMINAL_BOTTOM = "true" }, win = { position = "bottom" } })
+end, { desc = "Terminal (Bottom)" })
+map("n", "<leader>tf", function()
+  Snacks.terminal(nil, { env = { NVIM_TERMINAL_FLOAT = "true" }, win = { position = "float", border = "rounded" } })
+end, { desc = "Terminal (Float)" })
+map("n", "<leader>tB", function()
+  Snacks.terminal(
+    nil,
+    { env = { NVIM_TERMINAL_BOTTOM = "true" }, win = { position = "bottom" }, cwd = vim.fn.getcwd() }
+  )
+end, { desc = "Terminal (Bottom, cwd)" })
+map("n", "<leader>tF", function()
+  Snacks.terminal(
+    nil,
+    { env = { NVIM_TERMINAL_FLOAT = "true" }, win = { position = "float", border = "rounded" }, cwd = vim.fn.getcwd() }
+  )
+end, { desc = "Terminal (Float, cwd)" })
+-- map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+map("t", "<C-t>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
 -- Buffer
 map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
@@ -47,3 +61,8 @@ map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "<leader>bo", function()
   Snacks.bufdelete.other()
 end, { desc = "Delete Other Buffers" })
+
+-- Diagnostics
+map("n", "<leader>cd", function()
+  vim.diagnostic.open_float({ border = "rounded", scope = "cursor", focusable = false })
+end, { desc = "[c]ode [d]iagnostics on cursor" })
