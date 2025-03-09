@@ -74,15 +74,19 @@ return {
           map("<leader>ca", vim.lsp.buf.code_action, "[c]ode [a]ction")
 
           -- Opens a popup that displays documentation about the word under your cursor
-          --  See `:help K` for why this keymap
-          vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-            border = "rounded",
-          })
-          map("K", function()
-            -- call twice for focusing the floating window
+          vim.lsp.handlers["textDocument/hover"] = function(_, result, ctx, config)
+            config = config or {}
+            config.border = "rounded"
+            config.focusable = false
+            config.max_width = 80
+            return vim.lsp.handlers.hover(_, result, ctx, config)
+          end
+          -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+          --   border = "rounded",
+          -- })
+          map("<leader>ch", function()
             vim.lsp.buf.hover()
-            vim.lsp.buf.hover()
-          end, "Hover Documentation")
+          end, "[c]ode [h]over for documentation")
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
@@ -101,6 +105,45 @@ return {
               callback = vim.lsp.buf.clear_references,
             })
           end
+
+          -- for auto signature help
+          if client and client.server_capabilities.signatureHelpProvider then
+            vim.lsp.handlers["textDocument/signatureHelp"] = function(_, result, ctx, config)
+              config = config or {}
+              config.border = "rounded"
+              config.focusable = false
+              config.max_width = 80
+              if result and result.signatures then
+                for _, signature in ipairs(result.signatures) do
+                  -- remove documentations
+                  -- signature.documentation = nil
+
+                  if signature.parameters then
+                    for _, param in ipairs(signature.parameters) do
+                      -- remove parameters documentations
+                      param.documentation = nil
+                    end
+                  end
+                end
+              end
+
+              return vim.lsp.handlers.signature_help(_, result, ctx, config)
+            end
+            vim.api.nvim_create_autocmd("CursorHoldI", {
+              buffer = event.buf,
+              callback = vim.lsp.buf.signature_help,
+            })
+          end
+
+          -- for auto diagnostics
+          -- if client and client.server_capabilities.diagnosticProvider then
+          --   vim.api.nvim_create_autocmd("CursorHold", {
+          --     buffer = event.buf,
+          --     callback = function()
+          --       vim.diagnostic.open_float({ border = "rounded", scope = "cursor" })
+          --     end,
+          --   })
+          -- end
         end,
       })
 
@@ -135,22 +178,23 @@ return {
                 -- jedi_references = { enabled = true },
                 -- jedi_signature_help = { enabled = true },
                 -- jedi_symbols = { enabled = true },
-                -- autopep8 = { enabled = true },
-                -- mccabe = { enabled = true },
-                -- flake8 = { enabled = true },
+                autopep8 = { enabled = false },
+                mccabe = { enabled = false },
+                flake8 = { enabled = false },
                 pycodestyle = { enabled = true, maxLineLength = 100 },
-                -- pyflakes = { enabled = true },
-                -- pylint = { enabled = true },
+                pyflakes = { enabled = false },
+                pylint = { enabled = false },
                 rope_autoimport = {
                   enabled = true,
                   completions = { enabled = true },
                   code_actions = { enabled = true },
                 },
-                -- yapf = { enabled = true },
+                yapf = { enabled = false },
               },
             },
           },
         },
+        -- for going to definition
         pyright = {
           -- Config options: https://github.com/microsoft/pyright/blob/main/docs/settings.md
           settings = {
@@ -167,6 +211,7 @@ return {
             },
           },
         },
+        -- for organizing imports
         ruff = {
           init_options = {
             settings = {

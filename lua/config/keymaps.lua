@@ -4,6 +4,7 @@ local map = vim.keymap.set
 map("n", "<C-s>", "<cmd>w<cr>", { desc = "Save" })
 map("i", "<C-s>", "<cmd>w<cr><esc>", { desc = "Save" })
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
+map("n", "<leader>qQ", "<cmd>q!<cr>", { desc = "Quit Without Saving" })
 
 map({ "n", "i", "s" }, "<esc>", function()
   vim.cmd("nohlsearch")
@@ -51,7 +52,8 @@ map("n", "<leader>tF", function()
     { env = { NVIM_TERMINAL_FLOAT = "true" }, win = { position = "float", border = "rounded" }, cwd = vim.fn.getcwd() }
   )
 end, { desc = "Terminal (Float, cwd)" })
-map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+-- map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+map("t", "<C-t>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
 -- Buffer
 map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
@@ -61,8 +63,6 @@ map("n", "<leader>bo", function()
 end, { desc = "Delete Other Buffers" })
 
 -- Diagnostics
-map("n", "<leader>K", function()
-  -- call twice for focusing the floating window
-  vim.diagnostic.open_float({ border = "rounded" })
-  vim.diagnostic.open_float({ border = "rounded" })
-end, { desc = "Popup Diagnostics" })
+map("n", "<leader>cd", function()
+  vim.diagnostic.open_float({ border = "rounded", scope = "cursor", focusable = false })
+end, { desc = "[c]ode [d]iagnostics on cursor" })

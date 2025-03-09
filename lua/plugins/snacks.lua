@@ -68,7 +68,7 @@ return {
                   "FILENAME",
                   "BASENAME",
                   "EXTENSION",
-                  "URI"
+                  "URI",
                 }
 
                 local order_map = {}

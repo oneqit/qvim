@@ -14,7 +14,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   group = "FileTypeTabStop",
-  pattern = { "lua", "javascript", "typescript" },
+  pattern = { "lua", "javascript", "typescript", "json" },
   callback = function()
     vim.bo.tabstop = 2
     vim.bo.shiftwidth = 2
