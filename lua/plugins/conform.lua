@@ -19,7 +19,7 @@ return {
     -- Define your formatters
     formatters_by_ft = {
       lua = { "stylua" },
-      python = { "isort" },
+      python = { "black" },
     },
     linters_by_ft = {
     },
@@ -30,10 +30,10 @@ return {
     -- Set up format-on-save
     -- format_on_save = { timeout_ms = 500 },
     -- Customize formatters
-    -- formatters = {
-    --   shfmt = {
-    --     prepend_args = { "-i", "2" },
-    --   },
-    -- },
+    formatters = {
+      black = {
+        prepend_args = { "--line-length", "100" },
+      },
+    },
   },
 }
