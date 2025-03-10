@@ -164,7 +164,14 @@ return {
         lua_ls = {
           settings = {
             Lua = {
-              diagnostics = { disable = { "undefined-global", "missing-fields" } },
+              diagnostics = {
+                disable = {
+                  "undefined-global",
+                  "undefined-doc-class",
+                  "undefined-doc-name",
+                  "undefined-doc-param",
+                },
+              },
             },
           },
         },

@@ -25,7 +25,7 @@ return {
         },
       },
       opts = {
-        system_prompt = function(opts)
+        system_prompt = function()
           return ""
         end,
         log_level = "DEBUG", -- or "TRACE"
