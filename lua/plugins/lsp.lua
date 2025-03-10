@@ -235,7 +235,7 @@ return {
       }
 
       require("mason").setup()
-      require("mason-tool-installer").setup({ ensure_installed = { "stylua" } })
+      require("mason-tool-installer").setup({ ensure_installed = { "stylua", "isort", "black" } })
       require("mason-lspconfig").setup({
         ensure_installed = vim.tbl_keys(servers or {}),
         handlers = {
