@@ -33,9 +33,11 @@ return {
       sources = {
         files = {
           hidden = true,
+          ignored = true,
         },
         explorer = {
           hidden = true,
+          ignored = true,
           actions = {
             copy_file_path = {
               action = function(_, item)
