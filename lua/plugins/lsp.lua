@@ -164,7 +164,14 @@ return {
         lua_ls = {
           settings = {
             Lua = {
-              diagnostics = { disable = { "undefined-global", "missing-fields" } },
+              diagnostics = {
+                disable = {
+                  "undefined-global",
+                  "undefined-doc-class",
+                  "undefined-doc-name",
+                  "undefined-doc-param",
+                },
+              },
             },
           },
         },
@@ -181,7 +188,11 @@ return {
                 autopep8 = { enabled = false },
                 mccabe = { enabled = false },
                 flake8 = { enabled = false },
-                pycodestyle = { enabled = true, maxLineLength = 100 },
+                pycodestyle = {
+                  enabled = true,
+                  ignore = { "W391" },
+                  maxLineLength = 100,
+                },
                 pyflakes = { enabled = false },
                 pylint = { enabled = false },
                 rope_autoimport = {
@@ -212,19 +223,19 @@ return {
           },
         },
         -- for organizing imports
-        ruff = {
-          init_options = {
-            settings = {
-              lineLength = 100,
-            },
-          },
-        },
+        -- ruff = {
+        --   init_options = {
+        --     settings = {
+        --       lineLength = 100,
+        --     },
+        --   },
+        -- },
         jsonls = {},
         sqlls = {},
       }
 
       require("mason").setup()
-      require("mason-tool-installer").setup({ ensure_installed = { "stylua" } })
+      require("mason-tool-installer").setup({ ensure_installed = { "stylua", "isort", "black" } })
       require("mason-lspconfig").setup({
         ensure_installed = vim.tbl_keys(servers or {}),
         handlers = {

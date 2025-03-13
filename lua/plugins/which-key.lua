@@ -5,16 +5,17 @@ return {
     spec = {
       {
         mode = { "n", "v" },
-        { "g", group = "goto" },
-        { "<leader>c", group = "code" },
-        { "<leader>f", group = "file/find" },
-        { "<leader>g", group = "git" },
-        { "<leader>q", group = "quit" },
-        { "<leader>s", group = "search" },
-        { "<leader>u", group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
+        { "g", group = "Go to" },
+        { "<leader>c", group = "Code" },
+        { "<leader>cc", group = "CodeCompanion" },
+        { "<leader>f", group = "Find/File" },
+        { "<leader>g", group = "Git" },
+        { "<leader>q", group = "Quit" },
+        { "<leader>s", group = "Search" },
+        { "<leader>u", group = "UI", icon = { icon = "󰙵 ", color = "cyan" } },
         {
           "<leader>b",
-          group = "buffer",
+          group = "Buffer",
           expand = function()
             return require("which-key.extras").expand.buf()
           end,
@@ -28,7 +29,7 @@ return {
       function()
         require("which-key").show({ expand = true })
       end,
-      desc = "Buffer Local Keymaps (which-key)",
+      desc = "Keymaps (which-key)",
     },
   },
 }
