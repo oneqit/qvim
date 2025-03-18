@@ -222,14 +222,17 @@ return {
             },
           },
         },
-        -- for organizing imports
-        -- ruff = {
-        --   init_options = {
-        --     settings = {
-        --       lineLength = 100,
-        --     },
-        --   },
-        -- },
+        kotlin_language_server = {
+          settings = {
+            kotlin = {
+              compiler = {
+                jvm = {
+                  target = "21",
+                }
+              }
+            }
+          }
+        },
         jsonls = {},
         sqlls = {},
       }
