@@ -32,4 +32,3 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo.noexpandtab = true
   end,
 })
-

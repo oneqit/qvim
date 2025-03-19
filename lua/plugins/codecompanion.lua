@@ -1,4 +1,3 @@
-if true then return {} end
 return {
   "olimorris/codecompanion.nvim",
   dependencies = {
@@ -10,10 +9,10 @@ return {
       adapters = {},
       strategies = {
         chat = {
-          adapter = "ollama",
+          adapter = "copilot",
         },
         inline = {
-          adapter = "ollama",
+          adapter = "copilot",
         },
       },
       display = {
@@ -35,28 +34,28 @@ return {
     })
     vim.keymap.set(
       { "n", "v", "i" },
-      "<C-a>",
+      "<C-q>",
       "<cmd>CodeCompanionChat Toggle<cr>",
       { noremap = true, silent = true, desc = "CodeCompanion: Toggle code companion chat" }
     )
-    vim.keymap.set(
-      { "n", "v" },
-      "<leader>cca",
-      "<cmd>CodeCompanionActions<cr>",
-      { noremap = true, silent = true, desc = "CodeCompanion: [c]ode [c]ompanion [a]ctions" }
-    )
-    vim.keymap.set(
-      { "n", "v" },
-      "<leader>cct",
-      "<cmd>CodeCompanionChat Toggle<cr>",
-      { noremap = true, silent = true, desc = "CodeCompanion: [c]ode [c]ompanion [t]oggle" }
-    )
-    vim.keymap.set(
-      "v",
-      "<leader>ccy",
-      "<cmd>CodeCompanionChat Add<cr>",
-      { noremap = true, silent = true, desc = "CodeCompanion: [c]ode [c]ompanion cop[y] to chat" }
-    )
+    -- vim.keymap.set(
+    --   { "n", "v" },
+    --   "<leader>cca",
+    --   "<cmd>CodeCompanionActions<cr>",
+    --   { noremap = true, silent = true, desc = "CodeCompanion: [c]ode [c]ompanion [a]ctions" }
+    -- )
+    -- vim.keymap.set(
+    --   { "n", "v" },
+    --   "<leader>cct",
+    --   "<cmd>CodeCompanionChat Toggle<cr>",
+    --   { noremap = true, silent = true, desc = "CodeCompanion: [c]ode [c]ompanion [t]oggle" }
+    -- )
+    -- vim.keymap.set(
+    --   "v",
+    --   "<leader>ccy",
+    --   "<cmd>CodeCompanionChat Add<cr>",
+    --   { noremap = true, silent = true, desc = "CodeCompanion: [c]ode [c]ompanion cop[y] to chat" }
+    -- )
 
     -- CodeCompanion save/load
     -- local cwd = vim.fn.getcwd()
@@ -68,7 +67,7 @@ return {
     --   chat_path:mkdir({ parents = true })
     -- end
 
-    local chat_root = vim.env.HOME .. "/.config/nvim/.codecompanionchat"
+    local chat_root = vim.fn.stdpath('data') .. '/codecompanionchat_history'
     local Path = require("plenary.path")
 
     vim.api.nvim_create_user_command("CodeCompanionSave", function()
@@ -82,8 +81,9 @@ return {
       end
 
       local chat_dir = chat_root .. "/" .. os.date("%Y%m%d")
-      local cwd_basename = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
-      local chat_file = cwd_basename .. "_" .. vim.fn.sha256(str):sub(1, 8) .. ".md"
+      local cwd = vim.fn.getcwd()
+      local cwd_basename = vim.fn.fnamemodify(cwd, ":t")
+      local chat_file = cwd_basename .. "_" .. vim.fn.sha256(cwd):sub(1, 8) .. ".md"
       local chat_file_abspath = chat_dir .. "/" .. chat_file
 
       local save_dir = Path:new(chat_dir)
