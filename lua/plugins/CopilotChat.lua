@@ -8,7 +8,10 @@ return {
     build = "make tiktoken", -- Only on MacOS or Linux
     opts = {
       -- See Configuration section for options
-      selection = nil,
+      selection = function(source)
+        local select = require("CopilotChat.select")
+        return source and select.visual(source) or nil
+      end,
       mappings = {
         reset = {
           normal = "",
@@ -19,8 +22,8 @@ return {
     keys = {
       -- { "<leader>cc", ":CopilotChat<CR>", desc = "CopilotChat: Open chat with optional input" },
       -- { "<leader>co", ":CopilotChatOpen<CR>", desc = "CopilotChat: Open chat window" },
-      { "<leader>cx", ":CopilotChatClose<CR>", mode = { "n", "v" }, desc = "CopilotChat: Close chat window" },
-      { "<leader>cc", ":CopilotChatToggle<CR>", mode = { "n", "v" }, desc = "CopilotChat: Toggle chat window" },
+      { "<leader>cx", ":CopilotChatClose<CR>", desc = "CopilotChat: Close chat window" },
+      { "<leader>cc", ":CopilotChatToggle<CR>", desc = "CopilotChat: Toggle chat window" },
       { "<C-a>", ":CopilotChatToggle<CR>", mode = { "n", "i", "v" }, desc = "CopilotChat: Toggle chat window" },
       { "<C-c>", ":CopilotChatStop<CR>", desc = "CopilotChat: Stop current output" },
       { "<leader>cR", ":CopilotChatReset<CR>", desc = "CopilotChat: Reset chat window" },

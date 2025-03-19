@@ -12,10 +12,10 @@ map({ "n", "i", "s" }, "<esc>", function()
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
 -- Pane
-map("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
-map("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
-map("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
-map("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
+map({ "n", "v" }, "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
+map({ "n", "v" }, "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
+map({ "n", "v" }, "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
+map({ "n", "v" }, "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
 
 -- Pane resize for macOS
 map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
