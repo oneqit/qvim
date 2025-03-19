@@ -29,3 +29,7 @@ opt.termguicolors = true
 opt.encoding = "UTF-8"
 opt.mouse = "a"
 opt.updatetime = 300
+
+-- copilot
+opt.completeopt = { "noinsert" }
+
