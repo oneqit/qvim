@@ -56,7 +56,7 @@ return {
     vim.api.nvim_create_user_command("CopilotChatAutoSave", function()
       local cwd = vim.fn.getcwd()
       local cwd_basename = vim.fn.fnamemodify(cwd, ":t")
-      local chat_file = os.date("%H%M%S") .. "_" .. cwd_basename .. "_" .. vim.fn.sha256(cwd):sub(1, 8)
+      local chat_file = os.date("%Y%m%d") .. "_" .. cwd_basename .. "_" .. vim.fn.sha256(cwd):sub(1, 8)
 
       vim.cmd("CopilotChatSave " .. chat_file)
     end, {})
