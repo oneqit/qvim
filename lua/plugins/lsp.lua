@@ -222,17 +222,18 @@ return {
             },
           },
         },
-        kotlin_language_server = {
-          settings = {
-            kotlin = {
-              compiler = {
-                jvm = {
-                  target = "21",
-                }
-              }
-            }
-          }
-        },
+        jdtls = {},
+        -- kotlin_language_server = {
+        --   settings = {
+        --     kotlin = {
+        --       compiler = {
+        --         jvm = {
+        --           target = "21",
+        --         }
+        --       }
+        --     }
+        --   }
+        -- },
         jsonls = {},
         sqlls = {},
       }
