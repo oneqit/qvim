@@ -10,7 +10,7 @@ return {
     -- { "<leader>co", ":CopilotChatOpen<CR>", desc = "CopilotChat: Open chat window" },
     { "<leader>cx", ":CopilotChatClose<CR>", desc = "CopilotChat: Close chat window" },
     { "<leader>cc", ":CopilotChatToggle<CR>", desc = "CopilotChat: Toggle chat window" },
-    { "<C-a>", ":CopilotChatToggle<CR>", mode = { "n", "i", "v" }, desc = "CopilotChat: Toggle chat window" },
+    { "<C-a>", ":<C-u>CopilotChatToggle<CR>", mode = { "n", "i", "v" }, desc = "CopilotChat: Toggle chat window" },
     { "<C-c>", ":CopilotChatStop<CR>", desc = "CopilotChat: Stop current output" },
     { "<leader>cR", ":CopilotChatReset<CR>", desc = "CopilotChat: Reset chat window" },
     -- { "<leader>cS", ":CopilotChatSave<CR>", desc = "CopilotChat: Save chat history" },
