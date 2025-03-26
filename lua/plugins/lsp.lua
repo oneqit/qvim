@@ -222,7 +222,7 @@ return {
             },
           },
         },
-        jdtls = {},
+        -- jdtls = {},
         -- kotlin_language_server = {
         --   settings = {
         --     kotlin = {
