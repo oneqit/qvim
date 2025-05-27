@@ -1,3 +1,4 @@
+if true then return {} end
 -- reference: https://github.com/hendrikmi/dotfiles/blob/main/nvim/lua/plugins/lsp.lua
 -- reference: https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 return {
