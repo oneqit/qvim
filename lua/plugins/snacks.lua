@@ -9,7 +9,7 @@ return {
       enabled = true,
       preset = {
         keys = {
-          { icon = "", key = "e", desc = "Explorer", action = "<leader>e" },
+          { icon = " ", key = "e", desc = "Explorer", action = "<leader>e" },
           { icon = " ", key = "q", desc = "Quit", action = ":qa" },
         },
       },
