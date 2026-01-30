@@ -30,8 +30,9 @@ return {
       mappings = {
         ["l"] = "open",
         ["h"] = "close_node",
-        ["Z"] = "expand_all_subnodes",
-        ["z"] = "close_all_nodes",
+        ["z"] = "expand_all_subnodes",
+        ["Z"] = "close_all_subnodes",
+        ["<leader>z"] = "close_all_nodes",
         ["<space>"] = "none",
       },
     },
