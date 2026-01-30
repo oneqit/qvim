@@ -7,6 +7,15 @@ return {
     "MunifTanjim/nui.nvim",
   },
   cmd = "Neotree",
+  init = function()
+    vim.api.nvim_create_autocmd("VimEnter", {
+      callback = function()
+        if vim.fn.argc() == 0 and vim.fn.line2byte("$") == -1 then
+          vim.cmd("Neotree show")
+        end
+      end,
+    })
+  end,
   keys = {
     { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Neo-tree: Toggle" },
     { "<leader>E", "<cmd>Neotree reveal<cr>", desc = "Neo-tree: Reveal current file" },
