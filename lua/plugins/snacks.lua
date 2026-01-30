@@ -1,5 +1,6 @@
 return {
   "folke/snacks.nvim",
+  enabled = false,
   priority = 1000,
   lazy = false,
   ---@type snacks.Config
@@ -181,7 +182,7 @@ return {
     -- { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "Snacks: LSP Symbols" },
     -- { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "Snacks: LSP Workspace Symbols" },
     -- Other
-    -- { "<leader>td", function() Snacks.dashboard() end, desc = "Snacks: Open dashboard" },
+    { "<leader>td", function() Snacks.dashboard() end, desc = "Snacks: Open dashboard" },
     { "<leader>z",  function() Snacks.zen() end, desc = "Snacks: Toggle Zen Mode" },
     { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Snacks: Toggle Zoom" },
     { "<leader>.",  function() Snacks.scratch() end, desc = "Snacks: Toggle Scratch Buffer" },

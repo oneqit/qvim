@@ -47,29 +47,10 @@ return {
   ---@type conform.setupOpts
   opts = {
     formatters_by_ft = {
-      lua = { "stylua" },
-      python = { "isort", "black" },
+      json = { "jq" },
     },
-    linters_by_ft = {},
     default_format_opts = {
       lsp_format = "fallback",
-    },
-    -- format_on_save = { timeout_ms = 500 },
-    formatters = {
-      stylua = {
-        prepend_args = {
-          "--indent-type", "Spaces",
-          "--indent-width", "2",
-          "--column-width", "120",
-          "--sort-requires",
-        },
-      },
-      isort = {
-        prepend_args = { "--line-length", "100" },
-      },
-      black = {
-        prepend_args = { "--line-length", "100" },
-      },
     },
   },
 }

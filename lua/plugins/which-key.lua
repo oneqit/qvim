@@ -7,7 +7,7 @@ return {
         mode = { "n", "v" },
         { "g", group = "Go to" },
         { "<leader>c", group = "Code" },
-        { "<leader>cc", group = "CodeCompanion" },
+        -- { "<leader>cc", group = "CodeCompanion" },
         { "<leader>f", group = "Find/File" },
         { "<leader>g", group = "Git" },
         { "<leader>q", group = "Quit" },
