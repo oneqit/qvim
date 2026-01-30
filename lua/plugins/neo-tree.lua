@@ -13,6 +13,44 @@ return {
   },
   opts = {
     close_if_last_window = true,
+    commands = {
+      copy_file_path = function(state)
+        local node = state.tree:get_node()
+        if not node then
+          return
+        end
+
+        local filepath = node:get_id()
+        local vals = {
+          ["PATH"] = filepath,
+          ["CWD"] = vim.fn.fnamemodify(filepath, ":."),
+          ["HOME"] = vim.fn.fnamemodify(filepath, ":~"),
+          ["FILE"] = vim.fn.fnamemodify(filepath, ":t"),
+        }
+
+        local options = {
+          "PATH",
+          "HOME",
+          "CWD",
+          "FILE",
+        }
+        options = vim.tbl_filter(function(key)
+          return vals[key] and vals[key] ~= ""
+        end, options)
+
+        vim.ui.select(options, {
+          prompt = "Copy file path",
+          format_item = function(item)
+            return string.format("%-4s → %s", item, vals[item])
+          end,
+        }, function(choice)
+          if choice then
+            vim.fn.setreg("+", vals[choice])
+            vim.notify("Copied: " .. vals[choice], vim.log.levels.INFO)
+          end
+        end)
+      end,
+    },
     filesystem = {
       follow_current_file = {
         enabled = true,
@@ -29,11 +67,13 @@ return {
       width = 35,
       auto_expand_width = true,
       mappings = {
+        ["Y"] = "copy_file_path",
         ["l"] = "open",
         ["h"] = "close_node",
         ["z"] = "expand_all_subnodes",
         ["Z"] = "close_all_subnodes",
-        ["<leader>z"] = "close_all_nodes",
+        ["<leader>z"] = "expand_all_nodes",
+        ["<leader>Z"] = "close_all_nodes",
         ["<space>"] = "none",
       },
     },
