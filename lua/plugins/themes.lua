@@ -1,12 +1,10 @@
 local themes = {
+  "monokai-pro-ristretto",
+  "monokai-pro-classic",
+  "github_dark_dimmed",
   "catppuccin-mocha",
-  "catppuccin-macchiato",
-  "catppuccin-frappe",
-  "catppuccin-latte",
   "tokyonight-night",
-  "tokyonight-storm",
-  "tokyonight-moon",
-  "tokyonight-day",
+  "cyberdream",
 }
 
 local current_index = 1
@@ -20,7 +18,18 @@ end
 
 return {
   {
-    "folke/tokyonight.nvim",
+    "loctvl842/monokai-pro.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd([[colorscheme monokai-pro-ristretto]])
+    end,
+    keys = {
+      { "<leader>tr", rotate_theme, desc = "Rotate theme" },
+    },
+  },
+  {
+    "projekt0n/github-nvim-theme",
     lazy = false,
     priority = 1000,
   },
@@ -29,11 +38,18 @@ return {
     name = "catppuccin",
     lazy = false,
     priority = 1000,
-    config = function()
-      vim.cmd([[colorscheme catppuccin-mocha]])
-    end,
+  },
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+  },
+  {
+    "scottmckendry/cyberdream.nvim",
+    lazy = false,
+    priority = 1000,
     keys = {
-      { "<leader>tt", rotate_theme, desc = "Rotate theme" },
+      { "<leader>tR", "<cmd>CyberdreamToggleMode<cr>", desc = "Toggle Cyberdream mode" },
     },
   },
 }

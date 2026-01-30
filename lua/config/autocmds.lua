@@ -1,3 +1,16 @@
+-- Disable italic
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    local hls = vim.api.nvim_get_hl(0, {})
+    for name, hl in pairs(hls) do
+      if hl.italic then
+        hl.italic = false
+        vim.api.nvim_set_hl(0, name, hl)
+      end
+    end
+  end,
+})
+
 -- Indent
 vim.api.nvim_create_augroup("FileTypeTabStop", { clear = true })
 
