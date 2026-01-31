@@ -45,3 +45,12 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo.noexpandtab = true
   end,
 })
+
+-- Auto reload files when changed externally
+vim.opt.autoread = true
+
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  group = vim.api.nvim_create_augroup("AutoReload", { clear = true }),
+  pattern = "*",
+  command = "checktime",
+})
