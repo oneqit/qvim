@@ -1,3 +1,16 @@
+-- Disable italic
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    local hls = vim.api.nvim_get_hl(0, {})
+    for name, hl in pairs(hls) do
+      if hl.italic then
+        hl.italic = false
+        vim.api.nvim_set_hl(0, name, hl)
+      end
+    end
+  end,
+})
+
 -- Indent
 vim.api.nvim_create_augroup("FileTypeTabStop", { clear = true })
 
@@ -31,4 +44,13 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo.shiftwidth = 8
     vim.bo.noexpandtab = true
   end,
+})
+
+-- Auto reload files when changed externally
+vim.opt.autoread = true
+
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  group = vim.api.nvim_create_augroup("AutoReload", { clear = true }),
+  pattern = "*",
+  command = "checktime",
 })

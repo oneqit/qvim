@@ -1,34 +1,16 @@
 return {
   "folke/snacks.nvim",
-  enabled = false,
+  enabled = true,
   priority = 1000,
   lazy = false,
   ---@type snacks.Config
   opts = {
     bigfile = { enabled = true },
-    dashboard = {
-      enabled = true,
-      preset = {
-        keys = {
-          { icon = " ", key = "e", desc = "Explorer", action = "<leader>e" },
-          { icon = " ", key = "q", desc = "Quit", action = ":qa" },
-        },
-      },
-      sections = {
-        { section = "header" },
-        { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
-        { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-        { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
-        { section = "startup" },
-      },
-    },
-    explorer = { enabled = true },
+    dashboard = { enabled = false },
+    explorer = { enabled = false },
     indent = { enabled = true },
     input = { enabled = true },
-    notifier = {
-      enabled = true,
-      timeout = 3000,
-    },
+    notifier = { enabled = true, timeout = 3000 },
     picker = {
       enabled = true,
       sources = {
@@ -36,79 +18,6 @@ return {
           hidden = true,
           ignored = true,
         },
-        explorer = {
-          hidden = true,
-          ignored = true,
-          actions = {
-            copy_file_path = {
-              action = function(_, item)
-                if not item then
-                  return
-                end
-
-                local vals = {
-                  ["PATH"] = item.file,
-                  ["PATH (CWD)"] = vim.fn.fnamemodify(item.file, ":."),
-                  ["PATH (HOME)"] = vim.fn.fnamemodify(item.file, ":~"),
-                  ["FILENAME"] = vim.fn.fnamemodify(item.file, ":t"),
-                  ["BASENAME"] = vim.fn.fnamemodify(item.file, ":t:r"),
-                  ["EXTENSION"] = vim.fn.fnamemodify(item.file, ":t:e"),
-                  -- ["URI"] = vim.uri_from_fname(item.file),
-                }
-
-                local options = vim.tbl_filter(function(val)
-                  return vals[val] ~= ""
-                end, vim.tbl_keys(vals))
-                if vim.tbl_isempty(options) then
-                  vim.notify("No values to copy", vim.log.levels.WARN)
-                  return
-                end
-
-                local order = {
-                  "PATH",
-                  "PATH (CWD)",
-                  "PATH (HOME)",
-                  "FILENAME",
-                  "BASENAME",
-                  "EXTENSION",
-                  "URI",
-                }
-
-                local order_map = {}
-                for i, it in ipairs(order) do
-                  order_map[it] = i
-                end
-
-                table.sort(options, function(a, b)
-                  return (order_map[a] or 100) < (order_map[b] or 100)
-                end)
-
-                vim.ui.select(options, {
-                  prompt = "Choose to copy to clipboard:",
-                  format_item = function(list_item)
-                    return ("%s: %s"):format(list_item, vals[list_item])
-                  end,
-                }, function(choice)
-                  local result = vals[choice]
-                  if result then
-                    vim.fn.setreg("+", result)
-                    Snacks.notify.info("Yanked `" .. result .. "`")
-                  end
-                end)
-              end,
-            },
-          },
-          win = {
-            list = {
-              keys = {
-                ["Y"] = "copy_file_path",
-              },
-            },
-          },
-        },
-      },
-      layout = {
-        auto_hide = { "input" },
       },
     },
     quickfile = { enabled = true },
@@ -130,7 +39,7 @@ return {
     { "<leader>/", function() Snacks.picker.grep() end, desc = "Snacks: Grep" },
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Snacks: Command History" },
     { "<leader>n", function() Snacks.picker.notifications() end, desc = "Snacks: Notification History" },
-    { "<leader>e", function() Snacks.explorer() end, desc = "Snacks: File Explorer" },
+    -- { "<leader>e", function() Snacks.explorer() end, desc = "Snacks: File Explorer" },
     -- find
     { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Snacks: Buffers" },
     { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Snacks: Find Config File" },
@@ -183,8 +92,8 @@ return {
     -- { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "Snacks: LSP Workspace Symbols" },
     -- Other
     { "<leader>td", function() Snacks.dashboard() end, desc = "Snacks: Open dashboard" },
-    { "<leader>z",  function() Snacks.zen() end, desc = "Snacks: Toggle Zen Mode" },
-    { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Snacks: Toggle Zoom" },
+    -- { "<leader>z",  function() Snacks.zen() end, desc = "Snacks: Toggle Zen Mode" },
+    -- { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Snacks: Toggle Zoom" },
     { "<leader>.",  function() Snacks.scratch() end, desc = "Snacks: Toggle Scratch Buffer" },
     { "<leader>S",  function() Snacks.scratch.select() end, desc = "Snacks: Select Scratch Buffer" },
     { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Snacks: Notification History" },
