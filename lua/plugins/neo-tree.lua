@@ -1,3 +1,6 @@
+-- 창 크기 저장용 변수
+local neo_tree_width = 35
+
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
@@ -73,8 +76,8 @@ return {
     },
     window = {
       position = "left",
-      width = 35,
-      auto_expand_width = true,
+      width = function() return neo_tree_width end,
+      auto_expand_width = false,
       mappings = {
         ["Y"] = "copy_file_path",
         ["l"] = "open",
@@ -84,6 +87,18 @@ return {
         ["<leader>z"] = "close_all_nodes",
         ["<leader>Z"] = "expand_all_nodes",
         ["<space>"] = "none",
+        ["["] = function()
+          neo_tree_width = math.max(20, neo_tree_width - 5)
+          vim.cmd("vertical resize " .. neo_tree_width)
+        end,
+        ["]"] = function()
+          neo_tree_width = neo_tree_width + 5
+          vim.cmd("vertical resize " .. neo_tree_width)
+        end,
+        ["="] = function()
+          neo_tree_width = 35
+          vim.cmd("vertical resize 35")
+        end,
       },
     },
     default_component_configs = {
