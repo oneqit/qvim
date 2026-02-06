@@ -1,6 +1,8 @@
 local map = vim.keymap.set
 
 -- General
+map("n", "q", "<Nop>", { desc = "Disable macro recording" })
+map("n", "Q", "<Nop>", { desc = "Disable Ex mode" })
 map("n", "<C-s>", "<cmd>w<cr>", { desc = "Save" })
 map("i", "<C-s>", "<cmd>w<cr><esc>", { desc = "Save" })
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })

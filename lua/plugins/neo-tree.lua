@@ -1,5 +1,5 @@
--- 창 크기 저장용 변수
-local neo_tree_width = 35
+-- 창 크기 저장용 전역 변수 (세션 동안 유지)
+_G.neo_tree_width = _G.neo_tree_width or 35
 
 return {
   "nvim-neo-tree/neo-tree.nvim",
@@ -16,6 +16,15 @@ return {
         if vim.fn.argc() == 0 and vim.fn.line2byte("$") == -1 then
           vim.cmd("Neotree show")
         end
+      end,
+    })
+    -- 열릴 때 저장된 크기로 복원
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "neo-tree",
+      callback = function()
+        vim.defer_fn(function()
+          vim.cmd("vertical resize " .. _G.neo_tree_width)
+        end, 10)
       end,
     })
   end,
@@ -76,7 +85,7 @@ return {
     },
     window = {
       position = "left",
-      width = function() return neo_tree_width end,
+      width = 35,
       auto_expand_width = false,
       mappings = {
         ["Y"] = "copy_file_path",
@@ -87,18 +96,24 @@ return {
         ["<leader>z"] = "close_all_nodes",
         ["<leader>Z"] = "expand_all_nodes",
         ["<space>"] = "none",
-        ["["] = function()
-          neo_tree_width = math.max(20, neo_tree_width - 5)
-          vim.cmd("vertical resize " .. neo_tree_width)
+        ["<tab>"] = "prev_source",
+        ["<s-tab>"] = "next_source",
+        ["<"] = function()
+          _G.neo_tree_width = math.max(20, _G.neo_tree_width - 5)
+          vim.cmd("vertical resize " .. _G.neo_tree_width)
         end,
-        ["]"] = function()
-          neo_tree_width = neo_tree_width + 5
-          vim.cmd("vertical resize " .. neo_tree_width)
+        [">"] = function()
+          _G.neo_tree_width = _G.neo_tree_width + 5
+          vim.cmd("vertical resize " .. _G.neo_tree_width)
         end,
         ["="] = function()
-          neo_tree_width = 35
+          _G.neo_tree_width = 35
           vim.cmd("vertical resize 35")
         end,
+        ["ga"] = "git_add_file",
+        ["gu"] = "git_unstage_file",
+        ["gr"] = "git_revert_file",
+        ["gc"] = "git_commit",
       },
     },
     default_component_configs = {

@@ -60,7 +60,8 @@ return {
         -- end)
         -- map("n", "<leader>hq", gitsigns.setqflist)
         --
-        -- -- Toggles
+        -- Toggles
+        map("n", "<leader>gB", gitsigns.blame, { desc = "gitsigns: [g]it full [B]lame" })
         -- map("n", "<leader>tb", gitsigns.toggle_current_line_blame)
         -- map("n", "<leader>td", gitsigns.toggle_deleted)
         -- map("n", "<leader>tw", gitsigns.toggle_word_diff)
