@@ -18,6 +18,15 @@ return {
         end
       end,
     })
+    -- Neovim에 포커스 돌아올 때 neo-tree git status 갱신
+    vim.api.nvim_create_autocmd("FocusGained", {
+      callback = function()
+        local ok, manager = pcall(require, "neo-tree.sources.manager")
+        if ok then
+          manager.refresh("filesystem")
+        end
+      end,
+    })
     -- 열릴 때 저장된 크기로 복원
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "neo-tree",
