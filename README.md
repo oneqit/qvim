@@ -3,13 +3,10 @@
 ### Install Neovim
 <https://github.com/neovim/neovim>
 ### Install dependencies
-- npm (for installing some mason packages)
-- ripgrep (for livegrep)
+- ripgrep (for live grep)
     - <https://github.com/BurntSushi/ripgrep>
-- fd (only macOS, for finding files on snacks.explorer)
-    ```zsh
-    brew install fd
-    ```
+- fd (for finding files on snacks picker)
+    - <https://github.com/sharkdp/fd>
 ### Install qvim
 ```shell
 git clone https://github.com/oneqit/qvim.git ~/.config/nvim
