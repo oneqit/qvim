@@ -34,6 +34,16 @@ return {
   },
   opts = {
     close_if_last_window = true,
+    event_handlers = {
+      {
+        event = "neo_tree_buffer_enter",
+        handler = function()
+          vim.schedule(function()
+            vim.cmd("Neotree action=show source=filesystem")
+          end)
+        end,
+      },
+    },
     commands = {
       copy_file_path = function(state)
         local node = state.tree:get_node()
