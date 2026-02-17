@@ -1,25 +1,27 @@
+local langs = {
+  "bash",
+  "java",
+  "json",
+  "kotlin",
+  "lua",
+  "markdown",
+  "markdown_inline",
+  "perl",
+  "python",
+  "vimdoc",
+  "yaml",
+}
+
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
+  lazy = false,
   config = function()
-    local configs = require("nvim-treesitter.configs")
-
-    configs.setup({
-      ensure_installed = {
-        "bash",
-        "java",
-        "json",
-        "kotlin",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "perl",
-        "python",
-        "vimdoc",
-        "yaml",
-      },
-      highlight = { enable = true },
-      indent = { enable = true },
+    require("nvim-treesitter").install(langs)
+    vim.api.nvim_create_autocmd("FileType", {
+      callback = function()
+        pcall(vim.treesitter.start)
+      end,
     })
   end,
 }

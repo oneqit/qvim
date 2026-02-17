@@ -13,7 +13,12 @@ return {
   init = function()
     vim.api.nvim_create_autocmd("VimEnter", {
       callback = function()
-        if vim.fn.argc() == 0 and vim.fn.line2byte("$") == -1 then
+        local arg = vim.fn.argv(0)
+        if arg and vim.fn.isdirectory(arg) == 1 then
+          vim.cmd.cd(arg)
+          vim.cmd("bdelete")
+          vim.cmd("Neotree show")
+        elseif vim.fn.argc() == 0 and vim.fn.line2byte("$") == -1 then
           vim.cmd("Neotree show")
         end
       end,
