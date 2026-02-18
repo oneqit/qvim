@@ -3,10 +3,12 @@
 ### Install Neovim
 <https://github.com/neovim/neovim>
 ### Install dependencies
-- ripgrep (for live grep)
+- ripgrep (required for snacks picker grep)
     - <https://github.com/BurntSushi/ripgrep>
-- fd (for finding files on snacks picker)
+- fd (required for snacks picker files/explorer)
     - <https://github.com/sharkdp/fd>
+- tree-sitter-cli (for compiling treesitter parsers)
+    - <https://github.com/nvim-treesitter/nvim-treesitter>
 ### Install qvim
 ```shell
 git clone https://github.com/oneqit/qvim.git ~/.config/nvim
