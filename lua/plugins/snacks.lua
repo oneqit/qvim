@@ -98,6 +98,7 @@ return {
     { "<leader>S",  function() Snacks.scratch.select() end, desc = "Snacks: Select Scratch Buffer" },
     { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Snacks: Notification History" },
     { "<leader>bd", function() Snacks.bufdelete() end, desc = "Snacks: Delete Buffer" },
+    { "<leader>bD", "<cmd>bp|bd! #<cr>", desc = "Snacks: Force Delete Buffer" },
     { "<leader>bo", function() Snacks.bufdelete.other() end, desc = "Delete Other Buffers" },
     -- { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Snacks: Rename File" },
     { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Snacks: Git Browse", mode = { "n", "v" } },

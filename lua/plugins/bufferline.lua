@@ -7,6 +7,7 @@ return {
   },
   keys = {
     { "<leader>bd", "<cmd>bp|bd #<cr>", desc = "Delete Buffer" },
+    { "<leader>bD", "<cmd>bp|bd! #<cr>", desc = "Force Delete Buffer" },
     {
       "<leader>bo",
       function()

@@ -43,6 +43,7 @@ git clone https://github.com/oneqit/qvim.git ~/.config/nvim
 |--------|------|
 | `Shift + h/l` | previous/next buffer |
 | `<leader>bd` | [b]uffer: [d]elete  |
+| `<leader>bD` | [b]uffer: force [D]elete |
 | `<leader>bo` | [b]uffer: delete [o]thers |
 
 ### Terminal
