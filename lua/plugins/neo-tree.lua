@@ -1,5 +1,6 @@
--- 창 크기 저장용 전역 변수 (세션 동안 유지)
+-- 창 크기 및 마크 상태 저장용 전역 변수 (세션 동안 유지)
 _G.neo_tree_width = _G.neo_tree_width or 35
+_G.neo_tree_marked = _G.neo_tree_marked or {}
 
 return {
   "nvim-neo-tree/neo-tree.nvim",
@@ -10,6 +11,17 @@ return {
     "MunifTanjim/nui.nvim",
   },
   cmd = "Neotree",
+  config = function(_, opts)
+    -- 마크 표시 커스텀 컴포넌트 등록
+    local cc = require("neo-tree.sources.common.components")
+    cc.mark_indicator = function(_, node, _)
+      if _G.neo_tree_marked[node:get_id()] then
+        return { text = "● ", highlight = "DiagnosticWarn" }
+      end
+      return { text = "" }
+    end
+    require("neo-tree").setup(opts)
+  end,
   init = function()
     vim.api.nvim_create_autocmd("VimEnter", {
       callback = function()
@@ -48,7 +60,86 @@ return {
   },
   opts = {
     close_if_last_window = true,
+    renderers = {
+      directory = {
+        { "indent" },
+        { "mark_indicator" },
+        { "icon" },
+        { "current_filter" },
+        { "container", content = {
+          { "name", zindex = 10 },
+          { "clipboard", zindex = 10 },
+          { "diagnostics", errors_only = true, zindex = 20, align = "right", hide_when_expanded = true },
+          { "git_status", zindex = 10, align = "right", hide_when_expanded = true },
+        } },
+      },
+      file = {
+        { "indent" },
+        { "mark_indicator" },
+        { "icon" },
+        { "diagnostics" },
+        { "name", use_git_status_colors = true },
+        { "modified" },
+        { "git_status" },
+      },
+    },
     commands = {
+      toggle_mark = function(state)
+        local node = state.tree:get_node()
+        if not node then
+          return
+        end
+        local id = node:get_id()
+        local marking = not _G.neo_tree_marked[id]
+        _G.neo_tree_marked[id] = marking or nil
+        if node.type == "directory" then
+          local children = vim.fn.glob(id .. "/**", false, true)
+          for _, child in ipairs(children) do
+            _G.neo_tree_marked[child] = marking or nil
+          end
+        end
+        require("neo-tree.sources.manager").refresh(state.name)
+      end,
+      unmark_all = function(state)
+        _G.neo_tree_marked = {}
+        require("neo-tree.sources.manager").refresh(state.name)
+        vim.notify("All marks cleared", vim.log.levels.INFO)
+      end,
+      delete_marked = function(state)
+        local paths = vim.tbl_keys(_G.neo_tree_marked)
+        if #paths == 0 then
+          vim.notify("No marked files", vim.log.levels.WARN)
+          return
+        end
+        -- 상위 디렉터리가 마크되어 있으면 하위 항목 제외
+        table.sort(paths)
+        local top_level = {}
+        for _, path in ipairs(paths) do
+          local dominated = false
+          for _, other in ipairs(top_level) do
+            if path:sub(1, #other + 1) == other .. "/" then
+              dominated = true
+              break
+            end
+          end
+          if not dominated then
+            table.insert(top_level, path)
+          end
+        end
+        local names = vim.tbl_map(function(p)
+          return "  " .. vim.fn.fnamemodify(p, ":~:.")
+        end, top_level)
+        local msg = string.format("Delete %d marked items?\n\n%s\n", #top_level, table.concat(names, "\n"))
+        local choice = vim.fn.confirm(msg, "&Yes\n&No", 2)
+        if choice == 1 then
+          for _, path in ipairs(top_level) do
+            vim.fn.delete(path, "rf")
+          end
+          _G.neo_tree_marked = {}
+          require("neo-tree.sources.manager").refresh(state.name)
+          vim.notify(string.format("Deleted %d items", #top_level), vim.log.levels.INFO)
+        end
+      end,
       copy_file_path = function(state)
         local node = state.tree:get_node()
         if not node then
@@ -128,6 +219,9 @@ return {
         ["gu"] = "git_unstage_file",
         ["gr"] = "git_revert_file",
         ["gc"] = "git_commit",
+        ["v"] = "toggle_mark",
+        ["<esc>"] = "unmark_all",
+        ["D"] = "delete_marked",
       },
     },
     default_component_configs = {
