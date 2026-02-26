@@ -12,7 +12,6 @@ return {
 
       local servers = {
         jsonls = {},
-        sqlls = {},
       }
 
       require("mason").setup()
