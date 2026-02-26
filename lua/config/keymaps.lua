@@ -6,7 +6,7 @@ map("n", "Q", "<Nop>", { desc = "Disable Ex mode" })
 map("n", "<C-s>", "<cmd>w<cr>", { desc = "Save" })
 map("i", "<C-s>", "<cmd>w<cr><esc>", { desc = "Save" })
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
-map("n", "<leader>qQ", "<cmd>q!<cr>", { desc = "Quit Without Saving" })
+map("n", "<leader>qQ", "<cmd>qa!<cr>", { desc = "Quit Without Saving" })
 
 map({ "n", "i", "s" }, "<esc>", function()
   vim.cmd("nohlsearch")

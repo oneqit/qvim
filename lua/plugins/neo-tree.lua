@@ -38,6 +38,11 @@ return {
     -- 종료 시 neo-tree를 먼저 닫아서 close_if_last_window 경고 방지
     vim.api.nvim_create_autocmd("QuitPre", {
       callback = function()
+        -- 현재 윈도우가 neo-tree이면 개입하지 않음 (qa 등이 정상 동작하도록)
+        local cur_buf = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(0))
+        if cur_buf:match("neo%-tree") then
+          return
+        end
         local tree_wins = {}
         local floating_wins = {}
         local wins = vim.api.nvim_list_wins()
