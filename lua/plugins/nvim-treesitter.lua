@@ -13,7 +13,6 @@ local langs = {
   "javascript",
   "json",
   "kotlin",
-  "latex",
   "lua",
   "markdown",
   "markdown_inline",
@@ -28,6 +27,10 @@ local langs = {
   "vimdoc",
   "yaml",
 }
+
+if not vim.env.TERMUX_VERSION then
+  table.insert(langs, "latex")
+end
 
 return {
   "nvim-treesitter/nvim-treesitter",

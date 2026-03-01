@@ -12,8 +12,11 @@ return {
 
       local servers = {
         jsonls = {},
-        sqlls = {},
       }
+
+      if not vim.env.TERMUX_VERSION then
+        servers.sqlls = {}
+      end
 
       require("mason").setup()
       require("mason-lspconfig").setup({
