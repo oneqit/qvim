@@ -13,7 +13,6 @@ local langs = {
   "javascript",
   "json",
   "kotlin",
-  "latex",
   "lua",
   "markdown",
   "markdown_inline",
