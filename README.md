@@ -9,6 +9,8 @@
     - <https://github.com/sharkdp/fd>
 - tree-sitter-cli (for compiling treesitter parsers)
     - <https://github.com/nvim-treesitter/nvim-treesitter>
+- chafa (required for image viewer)
+    - <https://github.com/hpjansson/chafa>
 ### Install qvim
 ```shell
 git clone https://github.com/oneqit/qvim.git ~/.config/nvim
@@ -86,6 +88,17 @@ git clone https://github.com/oneqit/qvim.git ~/.config/nvim
 |--------|------|
 | `<leader>tr` | [t]heme [r]otate |
 | `<leader>uC` | pick [C]olorscheme |
+
+### Image
+| keymap | description |
+|--------|------|
+| `<leader>iv` | open image viewer for current file/path under cursor (GIF auto-play) |
+| `<leader>iV` | open image viewer after entering path |
+| `<leader>ir` | refresh current image viewer |
+| `<leader>ic` | close image viewer |
+
+Image files are auto-opened in the viewer on read and when their buffer becomes active again.
+If you close with `q`, auto-open is temporarily suppressed for that buffer until you leave it once.
 
 ### UI Toggles
 | keymap | description |
