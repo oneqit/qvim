@@ -46,6 +46,29 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Delete initial empty buffer when opening the first file (only if no other buffers exist)
+do
+  local initial_buf = vim.api.nvim_get_current_buf()
+  vim.api.nvim_create_autocmd("BufEnter", {
+    group = vim.api.nvim_create_augroup("CleanInitialBuffer", { clear = true }),
+    once = true,
+    callback = function(args)
+      if args.buf == initial_buf then return end
+      local listed = vim.tbl_filter(function(b)
+        return vim.bo[b].buflisted
+      end, vim.api.nvim_list_bufs())
+      if #listed ~= 2 then return end
+      if vim.api.nvim_buf_is_valid(initial_buf)
+        and vim.api.nvim_buf_get_name(initial_buf) == ""
+        and vim.api.nvim_buf_line_count(initial_buf) <= 1
+        and vim.api.nvim_buf_get_lines(initial_buf, 0, 1, false)[1] == ""
+      then
+        vim.api.nvim_buf_delete(initial_buf, {})
+      end
+    end,
+  })
+end
+
 -- Auto reload files when changed externally
 vim.opt.autoread = true
 

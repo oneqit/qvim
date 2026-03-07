@@ -97,8 +97,41 @@ return {
     { "<leader>.",  function() Snacks.scratch() end, desc = "Snacks: Toggle Scratch Buffer" },
     { "<leader>S",  function() Snacks.scratch.select() end, desc = "Snacks: Select Scratch Buffer" },
     { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Snacks: Notification History" },
-    { "<leader>bd", function() Snacks.bufdelete() end, desc = "Snacks: Delete Buffer" },
-    { "<leader>bD", "<cmd>bp|bd! #<cr>", desc = "Snacks: Force Delete Buffer" },
+    { "<leader>bd", function()
+      local buf = vim.api.nvim_get_current_buf()
+      if vim.bo[buf].modified then
+        vim.notify("Buffer has unsaved changes", vim.log.levels.WARN)
+        return
+      end
+      local listed = vim.tbl_filter(function(b)
+        return vim.bo[b].buflisted
+      end, vim.api.nvim_list_bufs())
+      if #listed > 1 then
+        Snacks.bufdelete()
+      else
+        local new_buf = vim.api.nvim_create_buf(true, false)
+        vim.api.nvim_win_set_buf(0, new_buf)
+        if vim.api.nvim_buf_is_valid(buf) then
+          vim.api.nvim_buf_delete(buf, {})
+        end
+      end
+    end, desc = "Snacks: Delete Buffer" },
+    { "<leader>bD", function()
+      local buf = vim.api.nvim_get_current_buf()
+      local listed = vim.tbl_filter(function(b)
+        return vim.bo[b].buflisted
+      end, vim.api.nvim_list_bufs())
+      if #listed > 1 then
+        vim.cmd("bp|bd! #")
+      else
+        local new_buf = vim.api.nvim_create_buf(true, false)
+        vim.api.nvim_win_set_buf(0, new_buf)
+        if vim.api.nvim_buf_is_valid(buf) then
+          vim.api.nvim_buf_delete(buf, { force = true })
+        end
+      end
+    end, desc = "Snacks: Force Delete Buffer" },
+    { "<leader>bn", "<cmd>enew<cr>", desc = "New Buffer" },
     { "<leader>bo", function() Snacks.bufdelete.other() end, desc = "Delete Other Buffers" },
     -- { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Snacks: Rename File" },
     { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Snacks: Git Browse", mode = { "n", "v" } },

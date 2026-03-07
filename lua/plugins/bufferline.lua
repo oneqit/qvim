@@ -5,25 +5,7 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
-  keys = {
-    { "<leader>bd", "<cmd>bp|bd #<cr>", desc = "Delete Buffer" },
-    { "<leader>bD", "<cmd>bp|bd! #<cr>", desc = "Force Delete Buffer" },
-    {
-      "<leader>bo",
-      function()
-        local current = vim.api.nvim_get_current_buf()
-        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-          if buf ~= current and vim.api.nvim_buf_is_loaded(buf) then
-            local buftype = vim.bo[buf].buftype
-            if buftype == "" then
-              vim.api.nvim_buf_delete(buf, { force = false })
-            end
-          end
-        end
-      end,
-      desc = "Delete Other Buffers",
-    },
-  },
+  keys = {},
   config = function()
     require("bufferline").setup({
       options = {
