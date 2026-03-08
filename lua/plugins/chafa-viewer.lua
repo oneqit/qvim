@@ -1,9 +1,8 @@
 return {
-  name = "chafa-viewer",
-  dir = vim.fn.stdpath("config"),
+  name = "chafa-preview.nvim",
+  dir = vim.fn.expand("~/code/oneqit/chafa-preview.nvim"),
   lazy = false,
-  priority = 1,
   config = function()
-    require("chafa_viewer").setup()
+    require("chafa_preview").setup()
   end,
 }

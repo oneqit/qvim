@@ -25,7 +25,7 @@ local defaults = {
     min_height = 12,
     max_width = 180,
     max_height = 80,
-    title_prefix = "Chafa: ",
+    title_prefix = "Chafa Preview: ",
   },
   chafa = {
     bin = "chafa",
@@ -59,7 +59,7 @@ local state = {
   stopping_jobs = {},
   path = nil,
   suppressed_path = nil,
-  group = vim.api.nvim_create_augroup("ChafaViewer", { clear = true }),
+  group = vim.api.nvim_create_augroup("ChafaPreview", { clear = true }),
 }
 
 local function notify(msg, level)
@@ -200,7 +200,7 @@ local function replace_terminal_buffer()
   local new_buf = vim.api.nvim_create_buf(false, true)
   vim.bo[new_buf].bufhidden = "wipe"
   vim.bo[new_buf].swapfile = false
-  vim.bo[new_buf].filetype = "chafa-viewer"
+  vim.bo[new_buf].filetype = "chafa-preview"
   set_buffer_keymaps(new_buf)
   vim.api.nvim_win_set_buf(state.win, new_buf)
 
@@ -411,7 +411,7 @@ end
 
 function M.setup(opts)
   state.opts = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
-  state.group = vim.api.nvim_create_augroup("ChafaViewer", { clear = true })
+  state.group = vim.api.nvim_create_augroup("ChafaPreview", { clear = true })
 
   create_commands()
   if state.opts.keymaps then
