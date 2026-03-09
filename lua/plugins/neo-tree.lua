@@ -182,10 +182,10 @@ return {
         }
 
         local options = {
-          "PATH",
-          "HOME",
-          "CWD",
           "FILE",
+          "CWD",
+          "HOME",
+          "PATH",
         }
         options = vim.tbl_filter(function(key)
           return vals[key] and vals[key] ~= ""
