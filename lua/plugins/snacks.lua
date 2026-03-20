@@ -13,6 +13,19 @@ return {
     notifier = { enabled = true, timeout = 3000 },
     picker = {
       enabled = true,
+      layout = {
+        layout = {
+          width = 0.8,
+          height = 0.8,
+          box = "vertical",
+          border = true,
+          title = "{title} {live} {flags}",
+          title_pos = "center",
+          { win = "input", height = 1, border = "bottom" },
+          { win = "list", border = "none" },
+          { win = "preview", title = "{preview}", height = 0.6, border = "top" },
+        },
+      },
       sources = {
         files = {
           hidden = true,
