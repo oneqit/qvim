@@ -25,7 +25,10 @@ git clone https://github.com/oneqit/qvim.git ~/.config/nvim
 | `<leader>/` | grep |
 | `<leader>,` | find buffers |
 | `<leader>fr` | [f]ind [r]ecent |
+| `<leader>:` | command history |
 | `<leader>qq` | [q]uit |
+| `<leader>qQ` | [q]uit without saving |
+| `<leader>?` | show keymaps (which-key) |
 | `Ctrl + hjkl` | navigate pane |
 | `Ctrl + s` | [s]ave |
 
@@ -36,7 +39,16 @@ git clone https://github.com/oneqit/qvim.git ~/.config/nvim
 | `l` | open file/expand directory |
 | `h` | close node |
 | `Y` | cop[Y] file path |
-| `z/Z` | expand/close all subnodes |
+| `z/Z` | close/expand all subnodes |
+| `<leader>z/<leader>Z` | close/expand all nodes |
+| `<` / `>` / `=` | decrease/increase/reset width |
+| `v` | toggle mark |
+| `<esc>` | unmark all |
+| `D` | delete marked files |
+| `ga` | [g]it [a]dd file |
+| `gu` | [g]it [u]nstage file |
+| `gr` | [g]it [r]evert file |
+| `gc` | [g]it [c]ommit |
 
 ### Buffer
 | keymap | description |
@@ -45,11 +57,13 @@ git clone https://github.com/oneqit/qvim.git ~/.config/nvim
 | `<leader>bd` | [b]uffer: [d]elete  |
 | `<leader>bD` | [b]uffer: force [D]elete |
 | `<leader>bo` | [b]uffer: delete [o]thers |
+| `<leader>bn` | [b]uffer: [n]ew |
 
 ### Terminal
 | keymap | description |
 |--------|------|
 | `<leader>tf` | open a [t]erminal with [f]loating window |
+| `<leader>tF` | open a [t]erminal with [F]loating window (cwd) |
 | `Ctrl + t` | open a [t]erminal with floating window |
 | `<esc><esc>` | turn terminal mode to normal mode |
 
@@ -61,12 +75,32 @@ git clone https://github.com/oneqit/qvim.git ~/.config/nvim
 | `<leader>gb` | [g]it [b]ranches |
 | `<leader>gl` | [g]it [l]og |
 | `<leader>gd` | [g]it [d]iff (hunks) |
+| `<leader>gS` | [g]it [S]tash |
+| `<leader>gB` | [g]it [B]rowse |
 | `]h / [h` | next/previous hunk |
 | `<leader>hs` | [h]unk [s]tage |
 | `<leader>hr` | [h]unk [r]eset |
+| `<leader>hS` | [h]unk [S]tage buffer |
+| `<leader>hR` | [h]unk [R]eset buffer |
 | `<leader>hp` | [h]unk [p]review |
+| `<leader>hi` | [h]unk preview [i]nline |
 | `<leader>hb` | [h]unk [b]lame line |
 | `<leader>hd` | [h]unk [d]iff this |
+
+### Search
+| keymap | description |
+|--------|------|
+| `<leader>sb` | [s]earch [b]uffer lines |
+| `<leader>sB` | [s]earch grep open [B]uffers |
+| `<leader>sg` | [s]earch [g]rep |
+| `<leader>sw` | [s]earch [w]ord under cursor |
+| `<leader>s"` | [s]earch registers |
+| `<leader>s/` | [s]earch history |
+| `<leader>sa` | [s]earch [a]utocmds |
+| `<leader>sc` | [s]earch [c]ommand history |
+| `<leader>sC` | [s]earch [C]ommands |
+| `<leader>sk` | [s]earch [k]eymaps |
+| `<leader>su` | [s]earch [u]ndo history |
 
 ### Code
 | keymap | description |
@@ -75,11 +109,21 @@ git clone https://github.com/oneqit/qvim.git ~/.config/nvim
 | `gD` | [g]oto [d]eclaration |
 | `Ctrl + t` | go back |
 | `<leader>cf` | [c]ode [f]ormatting |
+| `<leader>cF` | [c]ode [F]ormatting (all formatters) |
 | `<leader>ca` | [c]ode [a]ction |
 | `<leader>cd` | [c]ode [d]iagnostics on cursor |
 | `K` | cursor hover for hint |
 | `gcc` | comment out |
 | `gc` | comment out (visual mode) |
+| `]]` / `[[` | next/previous reference |
+
+### REST/HTTP (Kulala)
+| keymap | description |
+|--------|------|
+| `<leader>Rs` | [R]est: [s]end request |
+| `<leader>Ra` | [R]est: send [a]ll requests |
+| `<leader>Rb` | [R]est: open scratchpad ([b]uffer) |
+| `<leader>Re` | [R]est: select [e]nvironment |
 
 ### Theme
 | keymap | description |
@@ -90,10 +134,19 @@ git clone https://github.com/oneqit/qvim.git ~/.config/nvim
 ### UI Toggles
 | keymap | description |
 |--------|------|
-| `<leader>us` | toggle [s]pelling |
-| `<leader>uw` | toggle [w]rap |
 | `<leader>ul` | toggle [l]ine numbers |
 | `<leader>uL` | toggle relative [L]ine numbers |
-| `<leader>ud` | toggle [d]iagnostics |
+| `<leader>uD` | toggle [D]im mode |
 | `<leader>uh` | toggle inlay [h]ints |
-| `<leader>ub` | toggle dark/light [b]ackground |
+| `<leader>uT` | toggle [T]reesitter |
+| `<leader>ug` | toggle indent [g]uides |
+| `<leader>uc` | toggle [c]sv view |
+| `<leader>um` | toggle render [m]arkdown |
+
+### Utilities
+| keymap | description |
+|--------|------|
+| `<leader>.` | toggle scratch buffer |
+| `<leader>S` | [S]elect scratch buffer |
+| `<leader>n` | [n]otification history |
+| `<leader>un` | dismiss all [n]otifications |
