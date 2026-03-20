@@ -35,9 +35,12 @@ map("n", "<C-S-L>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Wid
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
--- Buffer
-map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
-map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
+-- Buffer (일반 버퍼에서만 동작)
+local function is_normal_buffer()
+  return vim.bo.buftype == "" and vim.bo.filetype ~= ""
+end
+map("n", "<S-h>", function() if is_normal_buffer() then vim.cmd("bprevious") end end, { desc = "Prev Buffer" })
+map("n", "<S-l>", function() if is_normal_buffer() then vim.cmd("bnext") end end, { desc = "Next Buffer" })
 
 -- Diagnostics
 map("n", "<leader>cd", function()
