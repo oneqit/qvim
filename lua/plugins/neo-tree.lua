@@ -87,6 +87,13 @@ return {
   },
   opts = {
     close_if_last_window = true,
+    sources = { "filesystem", "git_status" },
+    source_selector = {
+      sources = {
+        { source = "filesystem" },
+        { source = "git_status" },
+      },
+    },
     renderers = {
       directory = {
         { "indent" },
