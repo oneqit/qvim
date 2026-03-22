@@ -137,7 +137,7 @@ return {
       unmark_all = function(state)
         _G.neo_tree_marked = {}
         require("neo-tree.sources.manager").refresh(state.name)
-        vim.notify("All marks cleared", vim.log.levels.INFO)
+        -- vim.notify("All marks cleared", vim.log.levels.INFO)
       end,
       delete_marked = function(state)
         local paths = vim.tbl_keys(_G.neo_tree_marked)
