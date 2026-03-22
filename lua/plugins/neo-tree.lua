@@ -210,6 +210,7 @@ return {
         popup_opts.enter = true
         popup_opts.zindex = 60
         popup_opts.size = { width = content_width, height = #options }
+        popup_opts.position = { row = 2, col = 0 }
 
         local popup = NuiPopup(popup_opts)
         popup:mount()
