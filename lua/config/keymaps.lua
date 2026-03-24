@@ -37,7 +37,8 @@ map("v", ">", ">gv")
 
 -- Buffer (일반 버퍼에서만 동작)
 local function is_normal_buffer()
-  return vim.bo.buftype == "" and vim.bo.filetype ~= ""
+  local bt = vim.bo.buftype
+  return (bt == "" or bt == "nowrite") and vim.bo.filetype ~= ""
 end
 map("n", "<S-h>", function() if is_normal_buffer() then vim.cmd("bprevious") end end, { desc = "Prev Buffer" })
 map("n", "<S-l>", function() if is_normal_buffer() then vim.cmd("bnext") end end, { desc = "Next Buffer" })
