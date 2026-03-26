@@ -11,7 +11,7 @@
     - <https://github.com/nvim-treesitter/nvim-treesitter>
 - imagemagick with librsvg support (for image.nvim with SVG)
     - <https://github.com/3rd/image.nvim?tab=readme-ov-file#imagemagick>
-    - macOS: `brew install imagemagick-full && brew link imagemagick-full`
+    - macOS: `brew install imagemagick-full`
 ### Install qvim
 ```shell
 git clone https://github.com/oneqit/qvim.git ~/.config/nvim
