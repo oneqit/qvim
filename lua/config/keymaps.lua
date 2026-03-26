@@ -40,8 +40,16 @@ local function is_normal_buffer()
   local bt = vim.bo.buftype
   return (bt == "" or bt == "nowrite") and vim.bo.filetype ~= ""
 end
-map("n", "<S-h>", function() if is_normal_buffer() then vim.cmd("bprevious") end end, { desc = "Prev Buffer" })
-map("n", "<S-l>", function() if is_normal_buffer() then vim.cmd("bnext") end end, { desc = "Next Buffer" })
+local function switch_buf(cmd)
+  if not is_normal_buffer() then return end
+  vim.cmd(cmd)
+  if vim.bo.filetype == "image" then
+    local ok, image = pcall(require, "snacks.image.buf")
+    if ok then image.attach(vim.api.nvim_get_current_buf()) end
+  end
+end
+map("n", "<S-h>", function() switch_buf("bprevious") end, { desc = "Prev Buffer" })
+map("n", "<S-l>", function() switch_buf("bnext") end, { desc = "Next Buffer" })
 
 -- Diagnostics
 map("n", "<leader>cd", function()

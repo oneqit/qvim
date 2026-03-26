@@ -9,9 +9,8 @@
     - <https://github.com/sharkdp/fd>
 - tree-sitter-cli (for compiling treesitter parsers)
     - <https://github.com/nvim-treesitter/nvim-treesitter>
-- imagemagick with librsvg support (for image.nvim with SVG)
-    - <https://github.com/3rd/image.nvim?tab=readme-ov-file#imagemagick>
-    - macOS: `brew install imagemagick-full`
+- imagemagick (for snacks.image SVG/PDF conversion)
+    - macOS: `brew install imagemagick`
 ### Install qvim
 ```shell
 git clone https://github.com/oneqit/qvim.git ~/.config/nvim
@@ -153,3 +152,4 @@ git clone https://github.com/oneqit/qvim.git ~/.config/nvim
 | `<leader>S` | [S]elect scratch buffer |
 | `<leader>n` | [n]otification history |
 | `<leader>un` | dismiss all [n]otifications |
+| `<leader>iC` | clear [i]mage [C]ache |

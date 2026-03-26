@@ -16,6 +16,14 @@ return {
     scope = { enabled = true },
     scroll = { enabled = true },
     statuscolumn = { enabled = true },
+    image = {
+      enabled = true,
+      cache = "/tmp/neovim-snacks-image",
+      formats = {
+        "png", "jpg", "jpeg", "gif", "bmp", "webp", "tiff", "heic", "avif",
+        "mp4", "mov", "avi", "mkv", "webm", "pdf", "icns", "svg",
+      },
+    },
     words = { enabled = true },
     styles = {
       notification_history = {
@@ -113,7 +121,12 @@ return {
           },
         })
       end,
-    }
+    },
+    { "<leader>iC", function()
+      local cache = "/tmp/neovim-snacks-image"
+      vim.fn.delete(cache, "rf")
+      vim.notify("Image cache cleared", vim.log.levels.INFO)
+    end, desc = "Clear [i]mage [C]ache" },
   },
   init = function()
     vim.api.nvim_create_autocmd("User", {
