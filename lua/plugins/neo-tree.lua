@@ -87,6 +87,13 @@ return {
   },
   opts = {
     close_if_last_window = true,
+    sources = { "filesystem", "git_status" },
+    source_selector = {
+      sources = {
+        { source = "filesystem" },
+        { source = "git_status" },
+      },
+    },
     renderers = {
       directory = {
         { "indent" },
@@ -130,7 +137,7 @@ return {
       unmark_all = function(state)
         _G.neo_tree_marked = {}
         require("neo-tree.sources.manager").refresh(state.name)
-        vim.notify("All marks cleared", vim.log.levels.INFO)
+        -- vim.notify("All marks cleared", vim.log.levels.INFO)
       end,
       delete_marked = function(state)
         local paths = vim.tbl_keys(_G.neo_tree_marked)
@@ -191,17 +198,69 @@ return {
           return vals[key] and vals[key] ~= ""
         end, options)
 
-        vim.ui.select(options, {
-          prompt = "Copy file path",
-          format_item = function(item)
-            return string.format("%-4s → %s", item, vals[item])
-          end,
-        }, function(choice)
-          if choice then
-            vim.fn.setreg("+", vals[choice])
-            vim.notify("Copied: " .. vals[choice], vim.log.levels.INFO)
+        local NuiPopup = require("nui.popup")
+        local popups = require("neo-tree.ui.popups")
+
+        local max_val_len = 0
+        for _, key in ipairs(options) do
+          max_val_len = math.max(max_val_len, #vals[key])
+        end
+        local content_width = max_val_len + 12
+        local popup_opts = popups.popup_options("Copy file path", content_width)
+        popup_opts.enter = true
+        popup_opts.zindex = 60
+        popup_opts.size = { width = content_width, height = #options }
+        popup_opts.position = { row = 2, col = 0 }
+
+        local popup = NuiPopup(popup_opts)
+        popup:mount()
+
+        local lines = {}
+        local highlights = {}
+        for i, key in ipairs(options) do
+          local num = string.format(" %d. ", i)
+          local label = string.format("%-4s", key)
+          local arrow = " → "
+          local value = vals[key]
+          lines[i] = num .. label .. arrow .. value
+          table.insert(highlights, { line = i, col = 0, end_col = #num, hl = "Number" })
+          table.insert(highlights, { line = i, col = #num, end_col = #num + #label, hl = "Type" })
+          table.insert(highlights, { line = i, col = #num + #label, end_col = #num + #label + #arrow, hl = "Comment" })
+          table.insert(highlights, { line = i, col = #num + #label + #arrow, end_col = #lines[i], hl = "String" })
+        end
+
+        vim.api.nvim_buf_set_lines(popup.bufnr, 0, -1, false, lines)
+        vim.api.nvim_set_option_value("modifiable", false, { buf = popup.bufnr })
+        vim.api.nvim_set_option_value("cursorline", true, { win = popup.winid })
+
+        for _, h in ipairs(highlights) do
+          vim.api.nvim_buf_add_highlight(popup.bufnr, -1, h.hl, h.line - 1, h.col, h.end_col)
+        end
+
+        local function select_item(idx)
+          popup:unmount()
+          local key = options[idx]
+          if key then
+            vim.fn.setreg("+", vals[key])
+            vim.notify("Copied: " .. vals[key], vim.log.levels.INFO)
           end
+        end
+
+        local function close()
+          popup:unmount()
+        end
+
+        popup:map("n", "<esc>", close)
+        popup:map("n", "q", close)
+        popup:map("n", "<cr>", function()
+          local row = vim.api.nvim_win_get_cursor(popup.winid)[1]
+          select_item(row)
         end)
+        for i = 1, #options do
+          popup:map("n", tostring(i), function()
+            select_item(i)
+          end)
+        end
       end,
     },
     filesystem = {

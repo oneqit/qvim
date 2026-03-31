@@ -25,6 +25,14 @@ opt.signcolumn = "yes"
 opt.scrolloff = 4
 opt.termguicolors = true
 
+-- folding
+opt.foldcolumn = "0"
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+opt.foldenable = true
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
+
 -- etc
 opt.encoding = "UTF-8"
 opt.mouse = "a"
