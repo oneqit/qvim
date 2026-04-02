@@ -38,7 +38,7 @@ map("v", ">", ">gv")
 -- Buffer (일반 버퍼에서만 동작)
 local function is_normal_buffer()
   local bt = vim.bo.buftype
-  return (bt == "" or bt == "nowrite") and vim.bo.filetype ~= ""
+  return bt == "" or bt == "nowrite"
 end
 local function switch_buf(cmd)
   if not is_normal_buffer() then return end
