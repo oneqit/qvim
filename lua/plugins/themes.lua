@@ -31,12 +31,20 @@ return {
         vim.api.nvim_set_hl(0, "NeoTreeHiddenByName", { fg = "#948a8b" })
       end
 
-      vim.cmd([[colorscheme monokai-pro-ristretto]])
+      local function apply_visual_hl()
+        vim.api.nvim_set_hl(0, "Visual", { bg = "#484545" })
+      end
 
-      -- Apply neo-tree highlights for monokai-pro
+      vim.cmd([[colorscheme monokai-pro-ristretto]])
+      apply_visual_hl()
+
+      -- Apply highlights for monokai-pro
       vim.api.nvim_create_autocmd("ColorScheme", {
         pattern = "monokai-pro*",
-        callback = apply_neo_tree_hl,
+        callback = function()
+          apply_neo_tree_hl()
+          apply_visual_hl()
+        end,
       })
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "neo-tree",
