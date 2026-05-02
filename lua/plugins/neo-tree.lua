@@ -480,8 +480,8 @@ return {
         ["<leader>z"] = "close_all_nodes",
         ["<leader>Z"] = "expand_all_nodes",
         ["<space>"] = "none",
-        ["<tab>"] = "prev_source",
-        ["<s-tab>"] = "next_source",
+        ["["] = { "prev_source", nowait = true },
+        ["]"] = { "next_source", nowait = true },
         ["<"] = function()
           _G.neo_tree_width = math.max(20, _G.neo_tree_width - 5)
           vim.cmd("vertical resize " .. _G.neo_tree_width)
@@ -498,7 +498,7 @@ return {
         ["gu"] = "git_unstage_file",
         ["gr"] = "git_revert_file",
         ["gc"] = "git_commit",
-        ["v"] = "toggle_mark",
+        ["<tab>"] = "toggle_mark",
         ["<esc>"] = "unmark_all",
         ["D"] = "delete_marked",
         ["M"] = "move_marked",
