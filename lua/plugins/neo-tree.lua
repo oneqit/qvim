@@ -474,7 +474,9 @@ return {
       mappings = {
         ["Y"] = "copy_file_path",
         ["l"] = "open",
+        ["<Right>"] = "open",
         ["h"] = "close_node",
+        ["<Left>"] = "close_node",
         ["z"] = "close_all_subnodes",
         ["Z"] = "expand_all_subnodes",
         ["<leader>z"] = "close_all_nodes",
