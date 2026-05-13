@@ -37,6 +37,7 @@ opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
 opt.encoding = "UTF-8"
 opt.mouse = "a"
 opt.updatetime = 300
+opt.clipboard = "unnamedplus"
 
 -- copilot
 opt.completeopt = { "noinsert" }
