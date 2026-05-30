@@ -2,6 +2,82 @@
 _G.neo_tree_width = _G.neo_tree_width or 35
 _G.neo_tree_marked = _G.neo_tree_marked or {}
 
+-- 주어진 경로(파일 또는 디렉터리)들에 영향받는 열린 버퍼 목록
+local function affected_buffers(paths)
+  local hits = {}
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(buf) then
+      local name = vim.api.nvim_buf_get_name(buf)
+      if name ~= "" then
+        for _, p in ipairs(paths) do
+          if name == p or name:sub(1, #p + 1) == p .. "/" then
+            table.insert(hits, { buf = buf, name = name })
+            break
+          end
+        end
+      end
+    end
+  end
+  return hits
+end
+
+local function close_buffers(bufs)
+  local ok_snacks, Snacks = pcall(function()
+    return Snacks
+  end)
+  for _, b in ipairs(bufs) do
+    if vim.api.nvim_buf_is_valid(b.buf) then
+      if ok_snacks and Snacks and Snacks.bufdelete then
+        pcall(Snacks.bufdelete, { buf = b.buf, force = true })
+      else
+        pcall(vim.api.nvim_buf_delete, b.buf, { force = true })
+      end
+    end
+  end
+end
+
+-- 마크된 경로들에서 top-level만 추리기 (상위 디렉터리가 마크된 경우 하위 제외)
+local function top_level_marked()
+  local paths = vim.tbl_keys(_G.neo_tree_marked)
+  table.sort(paths)
+  local top = {}
+  for _, path in ipairs(paths) do
+    local dominated = false
+    for _, other in ipairs(top) do
+      if path:sub(1, #other + 1) == other .. "/" then
+        dominated = true
+        break
+      end
+    end
+    if not dominated then
+      table.insert(top, path)
+    end
+  end
+  return top
+end
+
+-- confirm 메시지에 영향받는 버퍼 정보 추가, force 필요 여부 반환
+local function build_buffer_warning(bufs)
+  if #bufs == 0 then
+    return "", false
+  end
+  local lines = { "", string.format("⚠ %d open buffer(s) will be closed:", #bufs) }
+  local has_modified = false
+  for _, b in ipairs(bufs) do
+    local modified = vim.api.nvim_get_option_value("modified", { buf = b.buf })
+    local marker = modified and " [+]" or ""
+    if modified then
+      has_modified = true
+    end
+    table.insert(lines, "  " .. vim.fn.fnamemodify(b.name, ":~:.") .. marker)
+  end
+  if has_modified then
+    table.insert(lines, "")
+    table.insert(lines, "⚠ Some buffers have unsaved changes ([+]). Force close?")
+  end
+  return table.concat(lines, "\n"), has_modified
+end
+
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
@@ -140,32 +216,26 @@ return {
         -- vim.notify("All marks cleared", vim.log.levels.INFO)
       end,
       delete_marked = function(state)
-        local paths = vim.tbl_keys(_G.neo_tree_marked)
-        if #paths == 0 then
+        if vim.tbl_isempty(_G.neo_tree_marked) then
           vim.notify("No marked files", vim.log.levels.WARN)
           return
         end
-        -- 상위 디렉터리가 마크되어 있으면 하위 항목 제외
-        table.sort(paths)
-        local top_level = {}
-        for _, path in ipairs(paths) do
-          local dominated = false
-          for _, other in ipairs(top_level) do
-            if path:sub(1, #other + 1) == other .. "/" then
-              dominated = true
-              break
-            end
-          end
-          if not dominated then
-            table.insert(top_level, path)
-          end
-        end
+        local top_level = top_level_marked()
         local names = vim.tbl_map(function(p)
           return "  " .. vim.fn.fnamemodify(p, ":~:.")
         end, top_level)
-        local msg = string.format("Delete %d marked items?\n\n%s\n", #top_level, table.concat(names, "\n"))
-        local choice = vim.fn.confirm(msg, "&Yes\n&No", 2)
+        local bufs = affected_buffers(top_level)
+        local buf_warning, has_modified = build_buffer_warning(bufs)
+        local msg = string.format(
+          "Delete %d marked items?\n\n%s\n%s",
+          #top_level,
+          table.concat(names, "\n"),
+          buf_warning
+        )
+        local prompt = has_modified and "&Yes (force)\n&No" or "&Yes\n&No"
+        local choice = vim.fn.confirm(msg, prompt, 2)
         if choice == 1 then
+          close_buffers(bufs)
           for _, path in ipairs(top_level) do
             vim.fn.delete(path, "rf")
           end
@@ -173,6 +243,118 @@ return {
           require("neo-tree.sources.manager").refresh(state.name)
           vim.notify(string.format("Deleted %d items", #top_level), vim.log.levels.INFO)
         end
+      end,
+      move_marked = function(state)
+        if vim.tbl_isempty(_G.neo_tree_marked) then
+          vim.notify("No marked files", vim.log.levels.WARN)
+          return
+        end
+        local top_level = top_level_marked()
+        local node = state.tree:get_node()
+        local default_dest = vim.fn.getcwd()
+        if node then
+          local id = node:get_id()
+          default_dest = node.type == "directory" and id or vim.fn.fnamemodify(id, ":h")
+        end
+        vim.ui.input({
+          prompt = "Move to directory: ",
+          default = default_dest .. "/",
+          completion = "dir",
+        }, function(input)
+          if not input or input == "" then
+            return
+          end
+          local dest = vim.fn.fnamemodify(vim.fn.expand(input), ":p"):gsub("/$", "")
+
+          -- 자기 자신 또는 하위로 이동 차단
+          for _, path in ipairs(top_level) do
+            if dest == path or dest:sub(1, #path + 1) == path .. "/" then
+              vim.notify(
+                "Cannot move into itself: " .. vim.fn.fnamemodify(path, ":~:."),
+                vim.log.levels.ERROR
+              )
+              return
+            end
+          end
+
+          -- 목적지 존재/디렉터리 검증
+          if vim.fn.isdirectory(dest) == 0 then
+            if vim.fn.filereadable(dest) == 1 then
+              vim.notify("Destination is a file: " .. dest, vim.log.levels.ERROR)
+              return
+            end
+            local create = vim.fn.confirm(
+              "Directory does not exist:\n  " .. vim.fn.fnamemodify(dest, ":~:.") .. "\n\nCreate it?",
+              "&Yes\n&No",
+              1
+            )
+            if create ~= 1 then
+              return
+            end
+            vim.fn.mkdir(dest, "p")
+          end
+
+          -- 이름 충돌 검사
+          local conflicts = {}
+          for _, path in ipairs(top_level) do
+            local target = dest .. "/" .. vim.fn.fnamemodify(path, ":t")
+            if vim.fn.filereadable(target) == 1 or vim.fn.isdirectory(target) == 1 then
+              table.insert(conflicts, target)
+            end
+          end
+          if #conflicts > 0 then
+            local conflict_lines = vim.tbl_map(function(p)
+              return "  " .. vim.fn.fnamemodify(p, ":~:.")
+            end, conflicts)
+            vim.notify(
+              "Destination already contains:\n" .. table.concat(conflict_lines, "\n"),
+              vim.log.levels.ERROR
+            )
+            return
+          end
+
+          local names = vim.tbl_map(function(p)
+            return "  " .. vim.fn.fnamemodify(p, ":~:.")
+          end, top_level)
+          local bufs = affected_buffers(top_level)
+          local buf_warning, has_modified = build_buffer_warning(bufs)
+          local msg = string.format(
+            "Move %d items to %s?\n\n%s\n%s",
+            #top_level,
+            vim.fn.fnamemodify(dest, ":~:."),
+            table.concat(names, "\n"),
+            buf_warning
+          )
+          local prompt = has_modified and "&Yes (force)\n&No" or "&Yes\n&No"
+          local choice = vim.fn.confirm(msg, prompt, 2)
+          if choice ~= 1 then
+            return
+          end
+
+          close_buffers(bufs)
+          local moved, failed = 0, {}
+          for _, path in ipairs(top_level) do
+            local result = vim.system({ "mv", path, dest .. "/" }):wait()
+            if result.code == 0 then
+              moved = moved + 1
+            else
+              table.insert(failed, vim.fn.fnamemodify(path, ":~:.") .. ": " .. (result.stderr or ""))
+            end
+          end
+          _G.neo_tree_marked = {}
+          require("neo-tree.sources.manager").refresh(state.name)
+          if #failed > 0 then
+            vim.notify(
+              string.format("Moved %d items, %d failed:\n%s", moved, #failed, table.concat(failed, "\n")),
+              vim.log.levels.WARN
+            )
+          else
+            vim.notify(
+              string.format("Moved %d items to %s", moved, vim.fn.fnamemodify(dest, ":~:.")),
+              vim.log.levels.INFO
+            )
+          end
+        end)
       end,
       copy_file_path = function(state)
         local node = state.tree:get_node()
@@ -292,14 +474,16 @@ return {
       mappings = {
         ["Y"] = "copy_file_path",
         ["l"] = "open",
+        ["<Right>"] = "open",
         ["h"] = "close_node",
+        ["<Left>"] = "close_node",
         ["z"] = "close_all_subnodes",
         ["Z"] = "expand_all_subnodes",
         ["<leader>z"] = "close_all_nodes",
         ["<leader>Z"] = "expand_all_nodes",
         ["<space>"] = "none",
-        ["<tab>"] = "prev_source",
-        ["<s-tab>"] = "next_source",
+        ["["] = { "prev_source", nowait = true },
+        ["]"] = { "next_source", nowait = true },
         ["<"] = function()
           _G.neo_tree_width = math.max(20, _G.neo_tree_width - 5)
           vim.cmd("vertical resize " .. _G.neo_tree_width)
@@ -316,9 +500,10 @@ return {
         ["gu"] = "git_unstage_file",
         ["gr"] = "git_revert_file",
         ["gc"] = "git_commit",
-        ["v"] = "toggle_mark",
+        ["<tab>"] = "toggle_mark",
         ["<esc>"] = "unmark_all",
         ["D"] = "delete_marked",
+        ["M"] = "move_marked",
       },
     },
     default_component_configs = {

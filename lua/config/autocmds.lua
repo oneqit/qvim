@@ -77,3 +77,26 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   pattern = "*",
   command = "checktime",
 })
+
+-- Force English input on NORMAL/VISUAL mode and on focus/startup (macOS)
+do
+  local bin = vim.fn.expand("~/.local/bin/tmux-im-status")
+  if vim.fn.executable(bin) == 1 then
+    local function force_english()
+      vim.system({ bin, "switch-english" }, { detach = true })
+    end
+
+    local group = vim.api.nvim_create_augroup("ForceEnglishIME", { clear = true })
+
+    vim.api.nvim_create_autocmd({ "VimEnter", "FocusGained" }, {
+      group = group,
+      callback = force_english,
+    })
+
+    vim.api.nvim_create_autocmd("ModeChanged", {
+      group = group,
+      pattern = { "*:n*", "*:v*", "*:V*", "*:\22*" },
+      callback = force_english,
+    })
+  end
+end

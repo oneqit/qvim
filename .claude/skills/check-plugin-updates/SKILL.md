@@ -14,7 +14,6 @@ lazy-lock.json에서 변경된 플러그인의 업데이트 내역을 확인합�
    ```
    curl -s "https://api.github.com/repos/{owner}/{repo}/compare/{old_sha}...{new_sha}" | jq -r '.commits[] | "\(.sha[0:7]) \(.commit.message | split("\n")[0])"'
    ```
-   - `gh` CLI는 사내 GitHub로 연결되므로 사용하지 않는다. 반드시 `curl`을 사용한다.
    - 여러 플러그인을 병렬로 조회하여 속도를 높인다.
 4. 결과를 플러그인별로 테이블 형태로 정리하여 보여준다.
 5. breaking change(`!` 표시 또는 `BREAKING` 키워드)가 있으면 경고를 표시한다.
