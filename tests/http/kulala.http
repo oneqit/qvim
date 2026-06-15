@@ -1,0 +1,49 @@
+# kulala 테스트용 샘플
+# 사용법: 요청 위에 커서를 두고
+#   <leader>Rs  = 현재 요청 전송
+#   <leader>Ra  = 파일 내 모든 요청 전송
+#   <leader>Re  = 환경(environment) 선택
+# 요청들은 ### 로 구분합니다.
+
+@base = https://jsonplaceholder.typicode.com
+
+### 1) 가장 단순한 GET (평문 응답)
+GET https://api.github.com/zen
+
+### 2) JSON GET
+GET {{base}}/posts/1
+
+### 3) 쿼리 파라미터 + 헤더
+GET {{base}}/comments?postId=1
+Accept: application/json
+
+### 4) POST (JSON 바디)
+POST {{base}}/posts
+Content-Type: application/json
+
+{
+  "title": "kulala test",
+  "body": "hello from neovim",
+  "userId": 1
+}
+
+### 5) PUT
+PUT {{base}}/posts/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "updated",
+  "userId": 1
+}
+
+### 6) DELETE
+DELETE {{base}}/posts/1
+
+### 7) 요청 헤더/바디 echo 확인 (httpbin)
+POST https://httpbin.org/post
+Content-Type: application/json
+
+{
+  "ping": "pong"
+}
