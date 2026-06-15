@@ -20,7 +20,7 @@ require("config.autocmds")
 
 require("autosync").setup({
   dirs = { "~/code/oneqit/daily-log" },
-  debounce_ms = 5000,
+  debounce_ms = 1000,
 })
 
 local plugins = "plugins"
