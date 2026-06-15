@@ -18,6 +18,11 @@ vim.opt.rtp:prepend(lazypath)
 require("config.options")
 require("config.autocmds")
 
+require("autosync").setup({
+  dirs = { "~/code/oneqit/daily-log" },
+  debounce_ms = 5000,
+})
+
 local plugins = "plugins"
 local opts = {}
 require("lazy").setup(plugins, opts)
